@@ -16,23 +16,13 @@ public class Tree {
        this.mainApp = mainApp;
        this.worldX = worldX;
        this.worldY = worldY;
-       loadImage();
+       texture = mainApp.loadImage("tree1.png");
     }
-    private void loadImage() {
-        try {
-            URL imageURL = getClass().getResource("/images/tree1.png");
-            texture = ImageIO.read(imageURL);
-            System.out.println("Loaded tree");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
     public void update() {
 
     }
     public void draw(Graphics2D g2) {
         g2.drawImage(texture, worldX - mainApp.player1.worldX,  worldY - mainApp.player1.worldY, null);
-//        g2.setColor(Color.CYAN);
-//        g2.fillRect(x, y, 50, 50);
     }
 }

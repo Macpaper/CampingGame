@@ -1,6 +1,7 @@
 package main.java.com.campoid.MainApp;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Player {
     private double x = 0;
@@ -15,12 +16,16 @@ public class Player {
     public int worldY = 0;
     public CameraKnob cameraKnob;
     private MainApp mainApp;
+    private BufferedImage texture;
+    public int hunger = 100;
+    public int thirst = 100;
 
     public Player(MainApp mainApp, double x, double y) {
         this.x = x;
         this.y = y;
         this.mainApp = mainApp;
         cameraKnob = new CameraKnob(x, y, 0, 0);
+        texture = mainApp.loadImage("playerPlaceholdr.png");
     }
 
     public void update() {
@@ -28,6 +33,13 @@ public class Player {
         this.dy = 0;
         this.ax = 0;
         this.ay = 0;
+        if (System.currentTimeMillis() % 100 == 0) {
+            hunger -= 2;
+            thirst -= 3;
+        }
+        if (hunger <= 0 || thirst <= 0) {
+            mainApp.gameOver = true;
+        }
         if (mainApp.keyH.down) {
             this.dy = 5;
         }
@@ -47,8 +59,14 @@ public class Player {
         this.dy += this.ay;
     }
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.BLUE);
-        g2.fillRect((int)this.x, (int)this.y, (int)this.width, (int)this.height);
+        g2.drawImage(texture, (int) this.x, (int)this.y, null);
+        g2.setColor(new Color(0, 250, 0));
+        g2.fillRect(50, 50, (int)(((double)hunger / 100) * 250), 30);
+        g2.setColor(new Color(0, 0, 250));
+        g2.fillRect(50, 100, (int)(((double)thirst / 100) * 250), 30);
+        g2.setColor(Color.BLACK);
+        g2.drawString("Hunger", 50, 75);
+        g2.drawString("Thirst", 50, 125);
     }
     public double getX() {
         return this.x;

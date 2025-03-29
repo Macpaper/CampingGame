@@ -9,9 +9,9 @@ public class Map {
     // Map will have an ArrayList of tiles. This is a 1D list where the x, y, and image is stored on the tiles object.
     ArrayList<Tile> tiles = new ArrayList<>();
     // This is the literal number of tiles in the world.
-    public int tilesHorizontal = 30;
+    public int tilesHorizontal = 20;
     public int tileSize = 120;
-    public int tilesVertical = 30;
+    public int tilesVertical = 20;
     public int worldWidth = tilesHorizontal * tileSize;
     public Vec2 position;
 
@@ -27,7 +27,7 @@ public class Map {
         int count = 0;
         for (int row = 0; row < tilesVertical; row++) {
             for (int col = 0; col < tilesHorizontal; col++) {
-                Tile tile = new Tile(col * tileSize, row * tileSize, row, col, tileSize, tileSize, count);
+                Tile tile = new Tile(mainApp, col * tileSize, row * tileSize, row, col, tileSize, tileSize, count);
                 tiles.add(tile);
                 count++;
             }
@@ -47,19 +47,5 @@ public class Map {
         for (Tile tile : tiles) {
             tile.draw(g2, (int)position.x, (int)position.y);
         }
-        int[] xPoints = {
-                0,
-                80,
-                0,
-                -40
-        };
-
-        int[] yPoints = {
-                0, 40, 80, 40
-        };
-        g2.setColor(Color.BLUE);
-        g2.fillPolygon(xPoints, yPoints, 4);
-        g2.setColor(Color.BLACK);
-        g2.drawPolygon(xPoints, yPoints, 4);
     }
 }

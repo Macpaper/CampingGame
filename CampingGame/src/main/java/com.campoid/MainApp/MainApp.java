@@ -8,6 +8,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class MainApp extends JPanel implements Runnable {
@@ -70,6 +71,7 @@ public class MainApp extends JPanel implements Runnable {
         map.draw(g2);
         player1.draw(g2);
         g2.drawImage(test1, 0, 0, null);
+//        trees.sort(Comparator.comparingInt(tree -> tree.y));
         for (Tree tree : trees) {
             tree.draw(g2);
         }

@@ -15,7 +15,9 @@ public class Tile {
     Color colors[] = {Color.GRAY, Color.RED, Color.BLUE, Color.GREEN };
     public BufferedImage texture;
     public Color color;
-    public Tile(int x, int y, int row, int col, int width, int height, int count) {
+    MainApp mainApp;
+    public Tile(MainApp mainApp, int x, int y, int row, int col, int width, int height, int count) {
+        this.mainApp = mainApp;
         this.x = x;
         this.y = y;
         this.row = row;
@@ -27,6 +29,7 @@ public class Tile {
         int randomIndex = random.nextInt(colors.length);
         this.color = colors[randomIndex];
         loadImage();
+//        texture = mainApp.loadImage("dirt.png");
     }
 
     private void loadImage() {

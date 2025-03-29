@@ -32,7 +32,7 @@ public class MainApp extends JPanel implements Runnable {
             update(); // update game logic
             repaint(); // draw visuals of game
             try {
-                Thread.sleep(17);
+                Thread.sleep(33);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

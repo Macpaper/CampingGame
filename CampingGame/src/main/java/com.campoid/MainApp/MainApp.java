@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class MainApp extends JPanel implements Runnable {
 
-    public final int G_WIDTH = 800;
-    public final int G_HEIGHT = 600;
+    public final int G_WIDTH = 1280;
+    public final int G_HEIGHT = 960;
     Dimension dimension = new Dimension(G_WIDTH, G_HEIGHT);
     Thread thread = new Thread(this);
     public boolean running = true;
@@ -15,6 +15,7 @@ public class MainApp extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
 
     Player player1 = new Player(this, G_WIDTH / 2, G_HEIGHT / 2);
+    Map map = new Map(this);
 
     public MainApp() {
         setFocusable(true);
@@ -38,12 +39,14 @@ public class MainApp extends JPanel implements Runnable {
         }
     }
     public void update() {
+        map.update();
         player1.update();
     }
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.RED);
         g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
+        map.draw(g2);
         player1.draw(g2);
     }
 }

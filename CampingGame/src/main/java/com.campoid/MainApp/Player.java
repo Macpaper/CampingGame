@@ -11,12 +11,16 @@ public class Player {
     private double ay = 0;
     private double width = 50;
     private double height = 50;
+    public int worldX = 0;
+    public int worldY = 0;
+    public CameraKnob cameraKnob;
     private MainApp mainApp;
 
     public Player(MainApp mainApp, double x, double y) {
         this.x = x;
         this.y = y;
         this.mainApp = mainApp;
+        cameraKnob = new CameraKnob(x, y, 0, 0);
     }
 
     public void update() {
@@ -37,8 +41,8 @@ public class Player {
         if (mainApp.keyH.right) {
             this.dx = 5;
         }
-        this.x += this.dx;
-        this.y += this.dy;
+        this.worldX += this.dx;
+        this.worldY += this.dy;
         this.dx += this.ax;
         this.dy += this.ay;
     }
@@ -57,5 +61,11 @@ public class Player {
     }
     public void setY(double y) {
         this.y = y;
+    }
+    public double getWidth() {
+        return this.width;
+    }
+    public double getHeight() {
+        return this.height;
     }
 }

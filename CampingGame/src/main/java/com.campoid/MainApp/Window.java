@@ -8,6 +8,7 @@ public class Window {
         frame.add(new MainApp());
         frame.setVisible(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

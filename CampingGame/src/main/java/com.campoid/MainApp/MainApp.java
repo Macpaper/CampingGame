@@ -106,6 +106,7 @@ public class MainApp extends JPanel implements Runnable {
         return null;
     }
 
+
     private void generateTrees() {
         for (int i = 0; i < 20; i++) {
             Tree t = new Tree(this, (int)Math.round(Math.random() * 1000), (int)Math.round(Math.random() * 1000));

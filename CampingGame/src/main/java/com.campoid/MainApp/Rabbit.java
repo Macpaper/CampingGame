@@ -5,7 +5,7 @@ import com.sun.tools.javac.Main;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Rabbit {
+public class Rabbit extends Animal {
     MainApp mainApp;
     public int worldX;
     public int worldY;
@@ -15,9 +15,8 @@ public class Rabbit {
     private BufferedImage texture;
     private GameTimer moveTimer;
     public Rabbit(MainApp mainApp, int worldX, int worldY) {
+        super(mainApp, "meat.png", new Vec2(worldX, worldY));
         this.mainApp = mainApp;
-//        this.worldX = worldX;
-//        this.worldY = worldY;
         position = new Vec2(worldX, worldY);
         velocity = new Vec2(3, 3);
 
@@ -30,6 +29,17 @@ public class Rabbit {
         moveTimer = new GameTimer(2000, 100, callback);
         moveTimer.start();
     }
+
+    @Override
+    public void move(Vec2 direction) {
+
+    }
+
+    @Override
+    public void eat() {
+
+    }
+
     public void update() {
         position = position.add(velocity);
 //        position.x += velocity.x;

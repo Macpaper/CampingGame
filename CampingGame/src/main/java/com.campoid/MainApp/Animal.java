@@ -6,14 +6,14 @@ import java.awt.image.BufferedImage;
 
 public abstract class Animal {
     protected int health;
-    protected Vec2 position;
+    public Vec2 position;
     protected boolean isAlive;
     protected int speed;
     public BufferedImage texture;
     protected int width;
     protected int height;
 
-    protected MainApp mainApp;
+    public MainApp mainApp;
     public Animal(MainApp mainApp, String textureName, Vec2 position) {
         this.mainApp = mainApp;
         this.position = position;

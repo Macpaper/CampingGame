@@ -30,16 +30,20 @@ public class Tile {
         Random random = new Random();
         int randomIndex = random.nextInt(colors.length);
         this.color = colors[randomIndex];
-//        loadImage();
+        loadImage();
     }
 
     private void loadImage() {
-        System.out.println("FUCKING LOAD IMAGE");
-        File saveD = new File(System.getProperty("user.dir") + "/assets/images/dirt.png");
-        String path = System.getProperty("user.dir") + "/assets/images/dirt.png";
+//        System.out.println("FUCKING LOAD IMAGE");
+//        File saveD = new File(System.getProperty("user.dir") + "/assets/images/dirt.png");
+//        String path = System.getProperty("user.dir") + "/assets/images/dirt.png";
+
         try {
-            URL urlDirt = new URL(path);
-            texture = ImageIO.read(urlDirt);
+            URL imageURL = getClass().getResource("/images/dirt.png");
+//            System.out.println(imageURL.toString());
+            texture = ImageIO.read(imageURL);
+            texture = transformToIsometric(texture);
+            System.out.println("Loaded image");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,17 +64,28 @@ public class Tile {
     }
 
     private BufferedImage transformToIsometric(BufferedImage image) {
-        int isoWidth = width;
-        int isoHeight = height / 2;
+        int width = image.getWidth();
+        int height = image.getHeight();
+        int isoWidth = width + height;
+        int isoHeight = (width + height) / 2;
         BufferedImage isometricImage = new BufferedImage(isoWidth, isoHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = isometricImage.createGraphics();
 
-        AffineTransform transform = new AffineTransform();
-        transform.translate(isoWidth / 2.0, 0);
-        transform.shear(-0.5, 0.5);
-        transform.scale(1.0, 0.5);
-
-        g2d.drawImage(image, transform, null);
+//        AffineTransform transform = new AffineTransform();
+//        transform.translate(isoWidth / 2.0, 0);
+//        transform.shear(-0.5, 0.5);
+//        transform.scale(1.0, 0.5);
+//
+//        g2d.drawImage(texture, transform, null);
+//        g2d.dispose();
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int rgb = image.getRGB(x, y);
+                int isoX = (x - y) + height;
+                int isoY = (x + y) / 2;
+                isometricImage.setRGB(isoX, isoY, rgb);
+            }
+        }
         g2d.dispose();
         return isometricImage;
     }
@@ -97,6 +112,6 @@ public class Tile {
 //        g2.setColor(Color.BLACK);
 //        g2.drawPolygon(xPoints, yPoints, 4);
 //        g2.drawImage(texture, isoX - (width / 2), isoY, null);
-        g2.drawImage(texture, 0, 0, null);
+        g2.drawImage(texture, isoX, isoY, width + height, (width + height) / 2, null);
     }
 }

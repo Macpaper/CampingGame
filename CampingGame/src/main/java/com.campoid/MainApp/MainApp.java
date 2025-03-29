@@ -33,10 +33,6 @@ public class MainApp extends JPanel implements Runnable {
         addMouseListener(mouseH);
         addMouseMotionListener(mouseH);
         try {
-//        String texturePath = String.valueOf(Objects.requireNonNull(getClass().getResource("/assets/images/dirt.png")));
-//            File saveD = new File(System.getProperty("user.dir") + "/assets/images/dirt.png");
-//            String path = System.getProperty("user.dir") + "/assets/images/dirt.png";
-//            URL url1 = getClass().getResource("/assets/images/dirt.png");
             URL imageURL = getClass().getResource("/images/dirt.png");
             System.out.println(imageURL.toString());
             test1 = ImageIO.read(imageURL);

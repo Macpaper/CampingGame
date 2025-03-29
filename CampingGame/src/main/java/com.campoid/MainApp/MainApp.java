@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainApp extends JPanel implements Runnable {
@@ -23,8 +24,7 @@ public class MainApp extends JPanel implements Runnable {
 
     Player player1 = new Player(this, G_WIDTH / 2, G_HEIGHT / 2);
     Map map = new Map(this);
-
-
+    ArrayList<Tree> trees = new ArrayList<>();
 
     public MainApp() {
         setFocusable(true);
@@ -41,6 +41,7 @@ public class MainApp extends JPanel implements Runnable {
             e.printStackTrace();
         }
         thread.start();
+        generateTrees();
     }
 
     @Override
@@ -58,6 +59,9 @@ public class MainApp extends JPanel implements Runnable {
     public void update() {
         map.update();
         player1.update();
+        for (Tree tree : trees) {
+            tree.update();
+        }
     }
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -66,5 +70,15 @@ public class MainApp extends JPanel implements Runnable {
         map.draw(g2);
         player1.draw(g2);
         g2.drawImage(test1, 0, 0, null);
+        for (Tree tree : trees) {
+            tree.draw(g2);
+        }
+    }
+
+    private void generateTrees() {
+        for (int i = 0; i < 20; i++) {
+            Tree t = new Tree(this, (int)Math.round(Math.random() * 1000), (int)Math.round(Math.random() * 1000));
+            trees.add(t);
+        }
     }
 }

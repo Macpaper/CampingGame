@@ -24,6 +24,7 @@ public class MainApp extends JPanel implements Runnable {
 
     Player player1 = new Player(this, G_WIDTH / 2, G_HEIGHT / 2);
     Map map = new Map(this);
+    InventoryGrid inventory = new InventoryGrid();
     ArrayList<Tree> trees = new ArrayList<>();
 
     public MainApp() {
@@ -59,6 +60,7 @@ public class MainApp extends JPanel implements Runnable {
     public void update() {
         map.update();
         player1.update();
+        inventory.update();
         for (Tree tree : trees) {
             tree.update();
         }
@@ -69,6 +71,7 @@ public class MainApp extends JPanel implements Runnable {
         g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
         map.draw(g2);
         player1.draw(g2);
+        inventory.draw(g2);
         g2.drawImage(test1, 0, 0, null);
         for (Tree tree : trees) {
             tree.draw(g2);

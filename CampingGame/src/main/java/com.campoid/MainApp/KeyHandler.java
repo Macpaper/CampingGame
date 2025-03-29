@@ -28,16 +28,16 @@ public class KeyHandler implements KeyListener {
 
     private void handleKeys(int code, boolean isPressed) {
         //System.out.println("fuck");
-		if (code == KeyEvent.VK_W) {
+		if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
 			up = isPressed;
 		}
-		if (code == KeyEvent.VK_S) {
+		if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
 			down = isPressed;
 		}
-		if (code == KeyEvent.VK_A) {
+		if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
 			left = isPressed;
 		}
-		if (code == KeyEvent.VK_D) {
+		if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
 			right = isPressed;
 		}
     }

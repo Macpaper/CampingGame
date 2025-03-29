@@ -34,7 +34,7 @@ public class Tile {
             URL imageURL = getClass().getResource("/images/dirt.png");
             texture = ImageIO.read(imageURL);
             texture = transformToIsometric(texture);
-            System.out.println("Loaded tile image");
+            //System.out.println("Loaded tile image");
         } catch (Exception e) {
             e.printStackTrace();
         }

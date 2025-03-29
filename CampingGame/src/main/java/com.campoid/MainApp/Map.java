@@ -9,9 +9,9 @@ public class Map {
     // Map will have an ArrayList of tiles. This is a 1D list where the x, y, and image is stored on the tiles object.
     ArrayList<Tile> tiles = new ArrayList<>();
     // This is the literal number of tiles in the world.
-    public int tilesHorizontal = 50;
+    public int tilesHorizontal = 30;
     public int tileSize = 120;
-    public int tilesVertical = 50;
+    public int tilesVertical = 30;
     public int worldWidth = tilesHorizontal * tileSize;
     public Vec2 position;
 

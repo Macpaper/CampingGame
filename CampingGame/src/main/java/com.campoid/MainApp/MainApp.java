@@ -11,9 +11,17 @@ public class MainApp extends JPanel implements Runnable {
     Thread thread = new Thread(this);
     public boolean running = true;
 
-    public MainApp() {
-        setPreferredSize(dimension);
+    MouseHandler mouseH = new MouseHandler();
+    KeyHandler keyH = new KeyHandler();
 
+    Player player1 = new Player(this, G_WIDTH / 2, G_HEIGHT / 2);
+
+    public MainApp() {
+        setFocusable(true);
+        setPreferredSize(dimension);
+        addKeyListener(keyH);
+        addMouseListener(mouseH);
+        addMouseMotionListener(mouseH);
         thread.start();
     }
 
@@ -30,11 +38,12 @@ public class MainApp extends JPanel implements Runnable {
         }
     }
     public void update() {
-
+        player1.update();
     }
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.RED);
         g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
+        player1.draw(g2);
     }
 }

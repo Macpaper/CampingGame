@@ -19,7 +19,6 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         handleKeys(e.getKeyCode(), true);
-
     }
 
     @Override
@@ -28,6 +27,7 @@ public class KeyHandler implements KeyListener {
     }
 
     private void handleKeys(int code, boolean isPressed) {
+        System.out.println("fuck");
 		if (code == KeyEvent.VK_W) {
 			up = isPressed;
 		}

@@ -3,11 +3,13 @@ package main.java.com.campoid.MainApp;
 import javax.swing.text.Position;
 
 public class BlackBear extends Animal implements Predator{
-    public BlackBear(Position pos) {
+    MainApp mainApp;
+    public int worldX;
+    public BlackBear(Vec2 pos) {
         super(pos);
     }
     @Override
-    public void move(Direction direction) {
+    public void move(Vec2 velocity) {
 
     }
 

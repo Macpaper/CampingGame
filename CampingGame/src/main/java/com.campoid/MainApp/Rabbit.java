@@ -3,12 +3,12 @@ package main.java.com.campoid.MainApp;
 import javax.swing.text.Position;
 
 public class Rabbit extends Animal implements Prey {
-    public Rabbit(Position pos) {
+    public Rabbit(Vec2 pos) {
         super(pos);
     }
 
     @Override
-    public void move(Direction direction) {
+    public void move(Vec2 direction) {
 
     }
 

@@ -4,15 +4,15 @@ import javax.swing.text.Position;
 
 public abstract class Animal {
     protected int health;
-    protected Position position;
+    protected Vec2 position;
     protected Boolean isAlive;
     protected int speed;
-    public Animal(Position position) {
+    public Animal(Vec2 position) {
         this.position = position;
         this.isAlive = true;
         this.health = 100;
     }
-    public abstract void move(Direction direction);
+    public abstract void move(Vec2 direction);
     public abstract void eat();
     public abstract void update();
     public void setHealth(int health) {
@@ -21,10 +21,10 @@ public abstract class Animal {
     public int getHealth() {
         return health;
     }
-    public Position getPosition() {
+    public Vec2 getPosition() {
         return position;
     }
-    public void setPosition(Position position) {
+    public void setPosition(Vec2 position) {
         this.position = position;
     }
 }

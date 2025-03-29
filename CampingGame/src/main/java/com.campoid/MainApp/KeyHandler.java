@@ -27,7 +27,7 @@ public class KeyHandler implements KeyListener {
     }
 
     private void handleKeys(int code, boolean isPressed) {
-        System.out.println("fuck");
+        //System.out.println("fuck");
 		if (code == KeyEvent.VK_W) {
 			up = isPressed;
 		}

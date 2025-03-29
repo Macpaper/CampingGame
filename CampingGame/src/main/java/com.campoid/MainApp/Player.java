@@ -31,7 +31,7 @@ public class Player {
         }
         if (mainApp.keyH.up) {
             this.dy = -5;
-            System.out.println("fuck you");
+            //System.out.println("fuck you");
         }
         if (mainApp.keyH.right) {
             this.dx = 5;

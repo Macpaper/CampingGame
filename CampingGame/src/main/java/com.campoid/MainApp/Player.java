@@ -12,6 +12,7 @@ public class Player {
     private double width = 50;
     private double height = 50;
     private MainApp mainApp;
+
     public Player(MainApp mainApp, double x, double y) {
         this.x = x;
         this.y = y;

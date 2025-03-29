@@ -58,8 +58,9 @@ public class Player {
         this.dx += this.ax;
         this.dy += this.ay;
     }
+
     public void draw(Graphics2D g2) {
-        g2.drawImage(texture, (int) this.x, (int)this.y, null);
+        g2.drawImage(texture, (int) this.x, (int)this.y, (int)this.width, (int)this.height, null);
         g2.setColor(new Color(0, 250, 0));
         g2.fillRect(50, 50, (int)(((double)hunger / 100) * 250), 30);
         g2.setColor(new Color(0, 0, 250));

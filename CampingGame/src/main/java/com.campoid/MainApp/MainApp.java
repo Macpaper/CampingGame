@@ -18,7 +18,7 @@ public class MainApp extends JPanel implements Runnable {
     Dimension dimension = new Dimension(G_WIDTH, G_HEIGHT);
     Thread thread = new Thread(this);
     public boolean running = true;
-
+    public boolean gameOver = false;
     BufferedImage test1;
     MouseHandler mouseH = new MouseHandler();
     KeyHandler keyH = new KeyHandler();
@@ -26,6 +26,7 @@ public class MainApp extends JPanel implements Runnable {
     Player player1 = new Player(this, G_WIDTH / 2, G_HEIGHT / 2);
     Map map = new Map(this);
     ArrayList<Tree> trees = new ArrayList<>();
+    ArrayList<Rabbit> rabbits = new ArrayList<>();
 
     public MainApp() {
         setFocusable(true);
@@ -43,7 +44,14 @@ public class MainApp extends JPanel implements Runnable {
         }
         thread.start();
         generateTrees();
+        for (int i = 0; i < 30; i++) {
+            int x = (int)Math.round(Math.random() * 1000);
+            int y = (int)Math.round(Math.random() * 1000);
+            Rabbit r = new Rabbit(this, x, y);
+            rabbits.add(r);
+        }
     }
+
 
     @Override
     public void run() {
@@ -59,9 +67,14 @@ public class MainApp extends JPanel implements Runnable {
     }
     public void update() {
         map.update();
-        player1.update();
+        if (!gameOver) {
+            player1.update();
+        }
         for (Tree tree : trees) {
             tree.update();
+        }
+        for (Rabbit rabbit : rabbits) {
+            rabbit.update();
         }
     }
     public void paintComponent(Graphics g) {
@@ -75,6 +88,22 @@ public class MainApp extends JPanel implements Runnable {
         for (Tree tree : trees) {
             tree.draw(g2);
         }
+        for (Rabbit tree : rabbits) {
+            tree.draw(g2);
+        }
+    }
+
+    public BufferedImage loadImage(String imageName) {
+        BufferedImage texture;
+        try {
+            URL imageURL = getClass().getResource("/images/" + imageName);
+            texture = ImageIO.read(imageURL);
+            System.out.println("Loaded tree");
+            return texture;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void generateTrees() {

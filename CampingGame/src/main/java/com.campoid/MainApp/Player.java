@@ -29,17 +29,17 @@ public class Player {
         this.ax = 0;
         this.ay = 0;
         if (mainApp.keyH.down) {
-            this.dy = 5;
+            this.dy = 10;
         }
         if (mainApp.keyH.left) {
-            this.dx = -5;
+            this.dx = -10;
         }
         if (mainApp.keyH.up) {
-            this.dy = -5;
+            this.dy = -10;
             //System.out.println("fuck you");
         }
         if (mainApp.keyH.right) {
-            this.dx = 5;
+            this.dx = 10;
         }
         this.worldX += this.dx;
         this.worldY += this.dy;

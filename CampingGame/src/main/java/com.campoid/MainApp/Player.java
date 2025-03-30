@@ -242,8 +242,8 @@ public class Player extends Entity {
         g2.drawString("Hunger", 50, 45);
         g2.drawString("Thirst", 50, 75);
         g2.drawString("Health", 50, 105);
-        g2.drawString("Player World X: " + worldX, 200, 20);
-        g2.drawString("Player World Y: " + worldY, 200, 40);
+//        g2.drawString("Player World X: " + worldX, 200, 20);
+//        g2.drawString(aw"Player World Y: " + worldY, 200, 40);
     }
     public double getX() {
         return this.x;

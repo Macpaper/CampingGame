@@ -39,6 +39,7 @@ public class MainApp extends JPanel implements Runnable {
     BufferedImage startBackground = loadImage("background.png");
     int startButtonWidth = 500;
     int startButtonHeight = 250;
+    Spawner spawner = new Spawner(this);
     Runnable startCallback = () -> {
       this.gameState = State.GAMEPLAY;
     };
@@ -47,16 +48,16 @@ public class MainApp extends JPanel implements Runnable {
             "startGameText.png", startCallback);
 
 
-    private void loadImages() {
-        try {
-            URL imageURL = getClass().getResource("/images/dirt.png");
-            dirtImage = ImageIO.read(imageURL);
-            dirtImage = transformToIsometric(dirtImage);
-            System.out.println("Loaded tile image");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void loadImages() {
+//        try {
+//            URL imageURL = getClass().getResource("/images/dirt.png");
+//            dirtImage = ImageIO.read(imageURL);
+//            dirtImage = transformToIsometric(dirtImage);
+//            System.out.println("Loaded tile image");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 
@@ -85,7 +86,7 @@ public class MainApp extends JPanel implements Runnable {
         setPreferredSize(dimension);
         addKeyListener(keyH);
         addMouseListener(mouseH);
-        loadImages();
+//        loadImages();
         map = new Map(this);
         addMouseMotionListener(mouseH);
         try {
@@ -98,24 +99,30 @@ public class MainApp extends JPanel implements Runnable {
         }
         thread.start();
         generateTrees();
-        for (int i = 0; i < 10; i++) {
-            int x = (int)Math.round(Math.random() * 1000);
-            int y = (int)Math.round(Math.random() * 1000);
-            Rabbit r = new Rabbit(this, x, y);
-            animals.add(r);
-        }
-        for (int i = 0; i < 10; i++) {
-            int x = (int)Math.round(Math.random() * 1000);
-            int y = (int)Math.round(Math.random() * 1000);
-            Deer r = new Deer(this, x, y);
-            animals.add(r);
-        }
-        for (int i = 0; i < 10; i++) {
-            int x = (int)Math.round(Math.random() * 1000);
-            int y = (int)Math.round(Math.random() * 1000);
-            BlackBear r = new BlackBear(this, x, y);
-            animals.add(r);
-        }
+        spawner.spawnInit();
+        int isoMapWidth = 20 * 120;
+        int isoMapHeight = (map.tilesVertical + map.tilesHorizontal) * map.tileSize/2;
+//        player1.worldX = -(isoMapWidth / 2) - G_WIDTH /2;
+        player1.worldX = -G_WIDTH/2;
+        player1.worldY = -G_HEIGHT/2 + isoMapHeight/4;
+//        for (int i = 0; i < 10; i++) {
+//            int x = (int)Math.round(Math.random() * 1000);
+//            int y = (int)Math.round(Math.random() * 1000);
+//            Rabbit r = new Rabbit(this, x, y);
+//            animals.add(r);
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            int x = (int)Math.round(Math.random() * 1000);
+//            int y = (int)Math.round(Math.random() * 1000);
+//            Deer r = new Deer(this, x, y);
+//            animals.add(r);
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            int x = (int)Math.round(Math.random() * 1000);
+//            int y = (int)Math.round(Math.random() * 1000);
+//            BlackBear r = new BlackBear(this, x, y);
+//            animals.add(r);
+//        }
     }
 
 
@@ -158,6 +165,7 @@ public class MainApp extends JPanel implements Runnable {
                 e.update();
             }
             inventory.update();
+            spawner.update();
         }
         if (gameState == State.DEAD) {
 

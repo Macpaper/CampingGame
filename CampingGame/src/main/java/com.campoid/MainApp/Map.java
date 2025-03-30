@@ -15,6 +15,8 @@ public class Map {
     public int worldWidth = tilesHorizontal * tileSize;
     public Vec2 position;
 
+
+
     public Map(MainApp mainApp) {
         this.mainApp = mainApp;
         createMap();
@@ -34,12 +36,32 @@ public class Map {
         }
     }
 
+    public int getIsoMapWidth() {
+        return 1;
+    }
+
+    public int getLeftBound() {
+        return ((tilesHorizontal * tileSize) / 2) + (mainApp.G_WIDTH /2);
+    }
+    public int getRightBound() {
+        return ((tilesHorizontal * tileSize) / 2) - (mainApp.G_WIDTH / 2);
+    }
+
+    public int getTopBound() {
+        return -(tileSize / 4);
+    }
+    public int getBottomBound() {
+        return (tilesVertical * (tileSize / 4)) + (tilesHorizontal * (tileSize / 4)) - (mainApp.G_HEIGHT / 2);
+    }
+
     public void update() {
         for (Tile tile : tiles) {
             tile.update();
         }
         position.x = mainApp.player1.worldX;
         position.y = mainApp.player1.worldY;
+//        position.x = Math.max(getLeftBound(), Math.min(mainApp.player1.worldX, getRightBound()));
+//        position.y = Math.max(getTopBound(), Math.min(mainApp.player1.worldY, getBottomBound()));
     }
 
     public void draw(Graphics2D g2) {

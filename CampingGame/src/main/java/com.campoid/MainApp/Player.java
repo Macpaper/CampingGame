@@ -1,7 +1,11 @@
 package main.java.com.campoid.MainApp;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 public class Player extends Entity {
@@ -67,7 +71,18 @@ public class Player extends Entity {
         double ay = a.worldY;
         return px + width > ax && px < ax + a.width && py + height > ay && py < ay + a.height;
     }
-
+    public void playSound(String soundFile) {
+        new Thread(() -> {
+            try {
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(soundFile));
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioIn);
+                clip.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
     public void collideAnimals() {
         for (Animal animal : mainApp.animals) {
             if (collideAnimal(animal)) {
@@ -78,6 +93,7 @@ public class Player extends Entity {
                         animal.health -= damage;
                         mainApp.explosions.add(new ParticleExplosion(mainApp, worldX, worldY));
                         System.out.println("Hit " + animal.toString() + " for " + damage + " damage. " + animal.health + " left");
+                        playSound("CampingGame/assets/audio/BAM.wav");
                     }
                 }
             }

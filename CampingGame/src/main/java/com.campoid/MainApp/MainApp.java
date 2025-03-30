@@ -33,6 +33,7 @@ public class MainApp extends JPanel implements Runnable {
     ArrayList<Tree> trees = new ArrayList<>();
     ArrayList<Animal> animals = new ArrayList<>();
     ArrayList<Item> items = new ArrayList<>();
+    ArrayList<Mushroom> mushrooms = new ArrayList<>();
     ArrayList<ParticleExplosion> explosions = new ArrayList<>();
     public HashMap<String, BufferedImage> imageMap = new HashMap<>();
     public BufferedImage dirtImage;
@@ -46,19 +47,6 @@ public class MainApp extends JPanel implements Runnable {
     Button startButton = new Button(this, G_WIDTH / 2 - startButtonWidth / 2,
                                     G_HEIGHT / 2 - startButtonHeight / 2, startButtonWidth, startButtonHeight,
             "startGameText.png", startCallback);
-
-
-//    private void loadImages() {
-//        try {
-//            URL imageURL = getClass().getResource("/images/dirt.png");
-//            dirtImage = ImageIO.read(imageURL);
-//            dirtImage = transformToIsometric(dirtImage);
-//            System.out.println("Loaded tile image");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
 
     private BufferedImage transformToIsometric(BufferedImage image) {
@@ -81,48 +69,24 @@ public class MainApp extends JPanel implements Runnable {
         return isometricImage;
     }
 
-    public MainApp() {
-        setFocusable(true);
-        setPreferredSize(dimension);
+    private void initListeners() {
         addKeyListener(keyH);
         addMouseListener(mouseH);
-//        loadImages();
-        map = new Map(this);
         addMouseMotionListener(mouseH);
-        try {
-            URL imageURL = getClass().getResource("/images/dirt.png");
-            System.out.println(imageURL.toString());
-            test1 = ImageIO.read(imageURL);
-            System.out.println("Loaded image");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        thread.start();
-        generateTrees();
+    }
+
+    public MainApp() {
+        initListeners();
+        setFocusable(true);
+        setPreferredSize(dimension);
+        map = new Map(this);
+//        generateTrees();
         spawner.spawnInit();
         int isoMapWidth = 20 * 120;
         int isoMapHeight = (map.tilesVertical + map.tilesHorizontal) * map.tileSize/2;
-//        player1.worldX = -(isoMapWidth / 2) - G_WIDTH /2;
         player1.worldX = -G_WIDTH/2;
         player1.worldY = -G_HEIGHT/2 + isoMapHeight/4;
-//        for (int i = 0; i < 10; i++) {
-//            int x = (int)Math.round(Math.random() * 1000);
-//            int y = (int)Math.round(Math.random() * 1000);
-//            Rabbit r = new Rabbit(this, x, y);
-//            animals.add(r);
-//        }
-//        for (int i = 0; i < 10; i++) {
-//            int x = (int)Math.round(Math.random() * 1000);
-//            int y = (int)Math.round(Math.random() * 1000);
-//            Deer r = new Deer(this, x, y);
-//            animals.add(r);
-//        }
-//        for (int i = 0; i < 10; i++) {
-//            int x = (int)Math.round(Math.random() * 1000);
-//            int y = (int)Math.round(Math.random() * 1000);
-//            BlackBear r = new BlackBear(this, x, y);
-//            animals.add(r);
-//        }
+        thread.start();
     }
 
 
@@ -160,6 +124,10 @@ public class MainApp extends JPanel implements Runnable {
             for (Item item : items) {
                 item.update();
             }
+            mushrooms.removeIf((i) -> !i.isAlive); // idc if items arent alive this is for deleting awkeawkdhawkdw
+            for (Mushroom m : mushrooms) {
+                m.update();
+            }
             explosions.removeIf((i) -> i.deleteMe); // idc if items arent alive this is for deleting awkeawkdhawkdw
             for (ParticleExplosion e : explosions) {
                 e.update();
@@ -187,9 +155,11 @@ public class MainApp extends JPanel implements Runnable {
             player1.draw(g2);
             g2.drawImage(test1, 0, 0, null);
 //        trees.sort(Comparator.comparingInt(tree -> tree.y));
-
             for (Tree tree : trees) {
                 tree.draw(g2);
+            }
+            for (Mushroom e : mushrooms) {
+                e.draw(g2);
             }
             for (Animal animal : animals) {
                 animal.draw(g2);
@@ -221,12 +191,12 @@ public class MainApp extends JPanel implements Runnable {
     }
 
 
-    private void generateTrees() {
-        for (int i = 0; i < 20; i++) {
-            Tree t = new Tree(this, MainApp.randInt(-800, 800), MainApp.randInt(-800, 800), MainApp.randInt(150, 300), MainApp.randInt(200, 350));
-            trees.add(t);
-        }
-    }
+//    private void generateTrees() {
+//        for (int i = 0; i < 20; i++) {
+//            Tree t = new Tree(this, MainApp.randInt(-800, 800), MainApp.randInt(-800, 800), MainApp.randInt(150, 300), MainApp.randInt(200, 350));
+//            trees.add(t);
+//        }
+//    }
     public static int randInt(int low, int high) {
         return (int)(Math.random() * (high - low + 1)) + low;
     }

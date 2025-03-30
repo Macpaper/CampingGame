@@ -20,7 +20,7 @@ public class Button {
     }
     public void update() {
         int mx = mainApp.mouseH.getMouseX();
-        int my = mainApp.mouseH.getMouseX();
+        int my = mainApp.mouseH.getMouseY();
         if (mx > x && mx < x + width && my > y && my < y + height && !ran) {
             if (mainApp.mouseH.isLeftButtonClicked()) {
                 ran = true;

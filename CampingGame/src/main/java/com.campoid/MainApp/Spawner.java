@@ -1,5 +1,7 @@
 package main.java.com.campoid.MainApp;
 
+import java.awt.*;
+
 public class Spawner {
     MainApp main;
     int maxRabbits = 10;
@@ -30,9 +32,21 @@ public class Spawner {
         for (int i = 0; i < MainApp.randInt(5, 10); i++) {
             spawnTree(TreeType.MUSHROOM);
         }
+        for (int i = 0; i < MainApp.randInt(5, 10); i++) {
+            Tile t = main.map.tiles.get(MainApp.randInt(0, main.map.tiles.size() - 1));
+            int sx = t.x - main.G_WIDTH;
+            int sy = t.y - main.G_HEIGHT;
+            Water w = new Water(main, sx, sy);
+            main.items.add(w);
+        }
     }
+    public boolean isRaining = false;
     public void update() {
-        if (System.currentTimeMillis() % (1000 * MainApp.randInt(2, 10)) == 0) {
+        if (System.currentTimeMillis() % 1000 * MainApp.randInt(10, 20) < 10) {
+            isRaining = !isRaining;
+            System.out.println("raining is: " + isRaining);
+        }
+        if (System.currentTimeMillis() % (1000 * MainApp.randInt(2, 10)) < 20) {
             numRabbits = 0; numBears = 0; numDeer = 0;
             for (Animal a : main.animals) {
                 if (a instanceof Rabbit) { numRabbits++; }
@@ -62,6 +76,21 @@ public class Spawner {
         if (animal == AnimalType.DEER) {
             Deer bear = new Deer(main, sx, sy);
             main.animals.add(bear);
+        }
+    }
+
+    public void draw(Graphics2D g2) {
+        if (isRaining) {
+            for (int i = 0; i < MainApp.randInt(5, 10); i++) {
+                main.addRainParticle();
+            }
+            if (MainApp.randInt(1, 5) == 1) {
+                Tile t = main.map.tiles.get(MainApp.randInt(0, main.map.tiles.size() - 1));
+                int sx = t.x - main.G_WIDTH;
+                int sy = t.y - main.G_HEIGHT;
+                Water w = new Water(main, sx, sy);
+                main.items.add(w);
+            }
         }
     }
 

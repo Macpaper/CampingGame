@@ -1,8 +1,8 @@
 package main.java.com.campoid.MainApp;
 
 public class Water extends Item {
-    public Water(MainApp mainApp, String textureName, double x, double y) {
-        super(mainApp, textureName, x, y);
+    public Water(MainApp mainApp,double x, double y) {
+        super(mainApp, "water.png", x, y);
     }
 
     @Override

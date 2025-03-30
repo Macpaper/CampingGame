@@ -122,6 +122,7 @@ public class Player extends Entity {
     }
 
     public void consumeItem(int index) {
+        useItemTimer = System.currentTimeMillis();
         Item i = itemInventory.get(index);
         if (!(i instanceof NoItem)) {
             i.consume();
@@ -161,7 +162,6 @@ public class Player extends Entity {
             this.dx = 5;
         }
         if (System.currentTimeMillis() - useItemTimer > 500) {
-            useItemTimer = System.currentTimeMillis();
             if (mainApp.keyH.one && itemInventory.size() > 0) {
                 consumeItem(0);
             }
@@ -203,19 +203,23 @@ public class Player extends Entity {
                 item.drawText = true;
                 if (mainApp.keyH.eKey && System.currentTimeMillis() - pickTimer > 500){
                     pickTimer = System.currentTimeMillis();
-                    if (itemInventory.size() < 9) {
-                        boolean placedItem = false;
-                        for (int i = 0; i < itemInventory.size(); i++) {
-                            if (itemInventory.get(i) instanceof NoItem) {
-                                itemInventory.set(i, item);
-                                item.moveToPlayerInventory(true, i);
-                                placedItem = true;
+                    if (item instanceof Water) {
+                        item.consume();
+                    } else {
+                        if (itemInventory.size() < 9) {
+                            boolean placedItem = false;
+                            for (int i = 0; i < itemInventory.size(); i++) {
+                                if (itemInventory.get(i) instanceof NoItem) {
+                                    itemInventory.set(i, item);
+                                    item.moveToPlayerInventory(true, i);
+                                    placedItem = true;
+                                }
                             }
-                        }
-                        if (!placedItem) {
-                            itemInventory.add(item);
-                            int index = itemInventory.size() - 1;
-                            item.moveToPlayerInventory(true, index);
+                            if (!placedItem) {
+                                itemInventory.add(item);
+                                int index = itemInventory.size() - 1;
+                                item.moveToPlayerInventory(true, index);
+                            }
                         }
                     }
                 }

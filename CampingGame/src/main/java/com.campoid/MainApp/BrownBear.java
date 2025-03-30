@@ -6,7 +6,7 @@ public class BrownBear extends Animal implements Predator{
     private GameTimer moveTimer;
 
     public BrownBear(MainApp mainApp, int worldX, int worldY) {
-        super(mainApp, "BB.png", new Vec2(worldX, worldY));
+        super(mainApp, "BB.png", new Vec2(worldX, worldY), 50, 50);
 
         Runnable callback = () -> {
             int speed = 5;

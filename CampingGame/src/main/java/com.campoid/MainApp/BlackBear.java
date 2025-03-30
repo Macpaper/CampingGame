@@ -8,7 +8,7 @@ public class BlackBear extends Animal implements Predator {
     private GameTimer moveTimer;
 
     public BlackBear(MainApp mainApp, int worldX, int worldY) {
-        super(mainApp, "dirt.png", new Vec2(worldX, worldY));
+        super(mainApp, "blackBear.png", new Vec2(worldX, worldY), 50, 50);
 
         Runnable callback = () -> {
             int speed = 5;

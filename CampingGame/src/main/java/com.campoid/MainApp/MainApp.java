@@ -86,16 +86,20 @@ public class MainApp extends JPanel implements Runnable {
         for (int i = 0; i < 10; i++) {
             int x = (int)Math.round(Math.random() * 1000);
             int y = (int)Math.round(Math.random() * 1000);
-//            int x = 0;
-//            int y = 0;
             Rabbit r = new Rabbit(this, x, y);
             animals.add(r);
         }
-        for (int i = 0; i < 30; i++) {
-//            int x = (int)Math.round(Math.random() * 1000);
-//            int y = (int)Math.round(Math.random() * 1000);
-//            BlackBear r = new BlackBear(this, x, y);
-//            animals.add(r);
+        for (int i = 0; i < 10; i++) {
+            int x = (int)Math.round(Math.random() * 1000);
+            int y = (int)Math.round(Math.random() * 1000);
+            Deer r = new Deer(this, x, y);
+            animals.add(r);
+        }
+        for (int i = 0; i < 10; i++) {
+            int x = (int)Math.round(Math.random() * 1000);
+            int y = (int)Math.round(Math.random() * 1000);
+            BlackBear r = new BlackBear(this, x, y);
+            animals.add(r);
         }
     }
 
@@ -132,7 +136,7 @@ public class MainApp extends JPanel implements Runnable {
     }
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.RED);
+        g2.setColor(new Color(50, 150, 40));
         g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
         map.draw(g2);
         player1.draw(g2);

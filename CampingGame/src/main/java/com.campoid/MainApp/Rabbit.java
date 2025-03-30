@@ -8,15 +8,14 @@ public class Rabbit extends Animal implements Prey {
     private GameTimer moveTimer;
 
     public Rabbit(MainApp mainApp, int worldX, int worldY) {
-        super(mainApp, "Rabbit.png", new Vec2(worldX, worldY));
+        super(mainApp, "Rabbit.png", new Vec2(worldX, worldY), 20, 20);
 
         width = 50;
         height = 50;
         Runnable callback = () -> {
-//            velocity.x = (int)Math.round(Math.random() * 10 - 5);
-//            velocity.y = (int)Math.round(Math.random() * 10 - 5);
-            velocity.x = 0;
-            velocity.y = 0;
+            velocity.x = (int)Math.round(Math.random() * 10 - 5);
+            velocity.y = (int)Math.round(Math.random() * 10 - 5);
+//            velocity.x = 0; velocity.y = 0;
         };
         moveTimer = new GameTimer(2000, 1000000, callback);
         moveTimer.start();

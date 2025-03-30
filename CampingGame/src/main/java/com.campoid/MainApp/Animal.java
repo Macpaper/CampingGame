@@ -15,7 +15,9 @@ public abstract class Animal {
     protected int height;
 
     public MainApp mainApp;
-    public Animal(MainApp mainApp, String textureName, Vec2 position) {
+    public Animal(MainApp mainApp, String textureName, Vec2 position, int width, int height) {
+        this.width = width;
+        this.height = height;
         this.mainApp = mainApp;
         this.position = position;
         this.velocity = new Vec2(0, 0);

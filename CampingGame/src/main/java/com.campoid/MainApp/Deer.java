@@ -6,7 +6,7 @@ public class Deer extends Animal implements Prey{
     private GameTimer moveTimer;
 
     public Deer(MainApp mainApp, int worldX, int worldY) {
-        super(mainApp, "DD.png", new Vec2(worldX, worldY));
+        super(mainApp, "DD.png", new Vec2(worldX, worldY), 40, 40);
 
         Runnable callback = () -> {
             velocity.x = (int)Math.round(Math.random() * 10 - 5);

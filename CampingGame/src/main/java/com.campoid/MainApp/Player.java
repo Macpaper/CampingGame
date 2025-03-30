@@ -50,6 +50,30 @@ public class Player extends Entity {
 
     }
 
+    public void addHealth(int added) {
+        health += added;
+        if (health >= 100) {
+            health = 100;
+        }
+        if (health <= 0) {
+            health = 0;
+        }
+    }
+
+    public void drink(int thirsty) {
+        this.thirst += thirsty;
+        if (this.thirst >= 100) {
+            this.thirst = 100;
+        }
+    }
+
+    public void eat(int nutrition) {
+        this.hunger += nutrition;
+        if (this.hunger >= 100) {
+            this.hunger = 100;
+        }
+    }
+
     public boolean collideAnimal(Animal a) {
             double px = worldX;
             double py = worldY;
@@ -113,6 +137,14 @@ public class Player extends Entity {
         }
     }
 
+    public void consumeItem(int index) {
+        useItemTimer = System.currentTimeMillis();
+        Item i = itemInventory.get(index);
+        if (!(i instanceof NoItem)) {
+            i.consume();
+            itemInventory.set(index, new NoItem(mainApp, "", 0, 0));
+        }
+    }
 
 
     public void update() {
@@ -146,58 +178,39 @@ public class Player extends Entity {
             this.dx = 5;
         }
         if (System.currentTimeMillis() - useItemTimer > 500) {
-            useItemTimer = System.currentTimeMillis();
             if (mainApp.keyH.one && itemInventory.size() > 0) {
-                Item i = itemInventory.get(0);
-                i.consume();
-                itemInventory.remove(0);
+                consumeItem(0);
             }
             if (mainApp.keyH.two && itemInventory.size() > 1) {
-                Item i = itemInventory.get(1);
-                i.consume();
-                itemInventory.remove(1);
+                consumeItem(1);
             }
 
             if (mainApp.keyH.three && itemInventory.size() > 2) {
-                Item i = itemInventory.get(2);
-                i.consume();
-                itemInventory.remove(2);
+                consumeItem(2);
             }
 
             if (mainApp.keyH.four && itemInventory.size() > 3) {
-                Item i = itemInventory.get(3);
-                i.consume();
-                itemInventory.remove(3);
+                consumeItem(3);
             }
 
             if (mainApp.keyH.five && itemInventory.size() > 4) {
-                Item i = itemInventory.get(4);
-                i.consume();
-                itemInventory.remove(4);
+                consumeItem(4);
             }
 
             if (mainApp.keyH.six && itemInventory.size() > 5) {
-                Item i = itemInventory.get(5);
-                i.consume();
-                itemInventory.remove(5);
+                consumeItem(5);
             }
 
             if (mainApp.keyH.seven && itemInventory.size() > 6) {
-                Item i = itemInventory.get(6);
-                i.consume();
-                itemInventory.remove(6);
+                consumeItem(6);
             }
 
             if (mainApp.keyH.eight && itemInventory.size() > 7) {
-                Item i = itemInventory.get(7);
-                i.consume();
-                itemInventory.remove(7);
+                consumeItem(7);
             }
 
             if (mainApp.keyH.nine && itemInventory.size() > 8) {
-                Item i = itemInventory.get(8);
-                i.consume();
-                itemInventory.remove(8);
+                consumeItem(8);
             }
         }
         for (Item item : mainApp.items) {
@@ -206,10 +219,24 @@ public class Player extends Entity {
                 item.drawText = true;
                 if (mainApp.keyH.eKey && System.currentTimeMillis() - pickTimer > 500){
                     pickTimer = System.currentTimeMillis();
-                    if (itemInventory.size() < 9) {
-                        itemInventory.add(item);
-                        int index = itemInventory.size() - 1;
-                        item.moveToPlayerInventory(true, index);
+                    if (item instanceof Water) {
+                        item.consume();
+                    } else {
+                        if (itemInventory.size() < 9) {
+                            boolean placedItem = false;
+                            for (int i = 0; i < itemInventory.size(); i++) {
+                                if (itemInventory.get(i) instanceof NoItem) {
+                                    itemInventory.set(i, item);
+                                    item.moveToPlayerInventory(true, i);
+                                    placedItem = true;
+                                }
+                            }
+                            if (!placedItem) {
+                                itemInventory.add(item);
+                                int index = itemInventory.size() - 1;
+                                item.moveToPlayerInventory(true, index);
+                            }
+                        }
                     }
                 }
             }

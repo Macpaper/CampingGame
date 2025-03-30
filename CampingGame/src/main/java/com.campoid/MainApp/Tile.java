@@ -29,7 +29,7 @@ public class Tile {
         int randomIndex = random.nextInt(colors.length);
         this.color = colors[randomIndex];
         loadImage();
-//        texture = mainApp.loadImage("dirt.png");
+//        BufferedImage tileImage = mainApp.loadImage("dirt.png");
     }
 
     private void loadImage() {

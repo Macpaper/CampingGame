@@ -11,11 +11,15 @@ public abstract class Item extends Entity {
     protected boolean inInventory = false;
     protected int inIndex = 0;
     public MainApp mainApp;
+    String textureName;
     public Item(MainApp mainApp, String textureName, double x, double y) {
         super(x, y, 50, 50);
         this.mainApp = mainApp;
         this.isAlive = true;
-        texture = mainApp.loadImage(textureName);
+        this.textureName = textureName;
+        if (textureName != "none") {
+            texture = mainApp.loadImage(textureName);
+        }
     }
     public void update() {
 
@@ -26,7 +30,9 @@ public abstract class Item extends Entity {
         if (!inInventory) {
             int screenX = (int)position.x - mainApp.player1.worldX + mainApp.G_WIDTH / 2;
             int screenY = (int)position.y - mainApp.player1.worldY + mainApp.G_HEIGHT / 2;
-            g2.drawImage(texture, screenX, screenY, 50, 50, null);
+            if (textureName != "none") {
+                g2.drawImage(texture, screenX, screenY, 50, 50, null);
+            }
 //            g2.drawString("World X: " + position.x, screenX, screenY - 20);
 //            g2.drawString("World Y: " + position.y, screenX, screenY);
             if (drawText) {
@@ -38,7 +44,9 @@ public abstract class Item extends Entity {
             position.x = 99999;
             position.y = 99999;
             int drawX = 400 + inIndex * 55;
-            g2.drawImage(texture, drawX, 700, 50, 50, null);
+            if (textureName != "none") {
+                g2.drawImage(texture, drawX, 700, 50, 50, null);
+            }
             g2.setFont(MainApp.textFontBoldSmall);
             g2.drawString(""+(inIndex + 1), drawX, 715);
 

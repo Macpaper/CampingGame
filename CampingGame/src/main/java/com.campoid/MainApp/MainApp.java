@@ -35,6 +35,7 @@ public class MainApp extends JPanel implements Runnable {
     ArrayList<Item> items = new ArrayList<>();
     ArrayList<Mushroom> mushrooms = new ArrayList<>();
     ArrayList<ParticleExplosion> explosions = new ArrayList<>();
+    ArrayList<RainParticle> rainParticles = new ArrayList<>();
     public HashMap<String, BufferedImage> imageMap = new HashMap<>();
     public BufferedImage dirtImage;
     BufferedImage startBackground = loadImage("background.png");
@@ -132,6 +133,9 @@ public class MainApp extends JPanel implements Runnable {
             for (ParticleExplosion e : explosions) {
                 e.update();
             }
+            for (RainParticle r : rainParticles) {
+                r.update();
+            }
             inventory.update();
             spawner.update();
         }
@@ -170,12 +174,22 @@ public class MainApp extends JPanel implements Runnable {
             for (ParticleExplosion e : explosions) {
                 e.draw(g2);
             }
+            for (RainParticle r : rainParticles) {
+                r.draw(g2);
+            }
+            spawner.draw(g2);
             inventory.draw(g2);
         }
         if (gameState == State.DEAD) {
 
         }
     }
+
+    public void addRainParticle() {
+        int randX = MainApp.randInt(-100, G_WIDTH + 100);
+        rainParticles.add(new RainParticle(randX, -100));
+    }
+
 
     public BufferedImage loadImage(String imageName) {
         BufferedImage texture;

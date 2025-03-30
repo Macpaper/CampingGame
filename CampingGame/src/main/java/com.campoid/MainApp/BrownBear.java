@@ -11,8 +11,8 @@ public class BrownBear extends Animal implements Predator{
         Runnable callback = () -> {
             int speed = 5;
             if (!aggro) {
-                velocity.x = (int)Math.round(Math.random() * speed - speed/2);
-                velocity.y = (int)Math.round(Math.random() * speed - speed/2);
+//                velocity.x = (int)Math.round(Math.random() * speed - speed/2);
+//                velocity.y = (int)Math.round(Math.random() * speed - speed/2);
             }
         };
         moveTimer = new GameTimer(5000, 1000000, callback);

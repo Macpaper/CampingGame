@@ -4,13 +4,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class MainApp extends JPanel implements Runnable {
     State gameState = State.START;
@@ -23,6 +19,7 @@ public class MainApp extends JPanel implements Runnable {
     public static Font textFontBoldSmall = new Font("Arial", Font.BOLD, 15);
     public static Font textFontPlain = new Font("Arial", Font.PLAIN, 20);
     public boolean gameOver = false;
+    Tent tent;
     BufferedImage test1;
     MouseHandler mouseH = new MouseHandler();
     KeyHandler keyH = new KeyHandler();
@@ -88,6 +85,7 @@ public class MainApp extends JPanel implements Runnable {
         player1.worldX = -G_WIDTH/2;
         player1.worldY = -G_HEIGHT/2 + isoMapHeight/4;
         thread.start();
+        tent = new Tent(this, player1.worldX, player1.worldY);
     }
 
 
@@ -157,6 +155,7 @@ public class MainApp extends JPanel implements Runnable {
             g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
             map.draw(g2);
             player1.draw(g2);
+            tent.draw(g2);
             g2.drawImage(test1, 0, 0, null);
 //        trees.sort(Comparator.comparingInt(tree -> tree.y));
             for (Tree tree : trees) {

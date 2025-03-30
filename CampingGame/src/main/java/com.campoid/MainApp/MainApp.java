@@ -23,9 +23,9 @@ public class MainApp extends JPanel implements Runnable {
     MouseHandler mouseH = new MouseHandler();
     KeyHandler keyH = new KeyHandler();
 
-    Player player1 = new Player(this, G_WIDTH / 2, G_HEIGHT / 2);
+    InventoryGrid inventory = new InventoryGrid(this);
+    Player player1 = new Player(this, G_WIDTH / 2, G_HEIGHT / 2, inventory);
     Map map = new Map(this);
-    InventoryGrid inventory = new InventoryGrid();
     ArrayList<Tree> trees = new ArrayList<>();
     ArrayList<Rabbit> rabbits = new ArrayList<>();
     ArrayList<Animal> animals = new ArrayList<>();
@@ -96,7 +96,6 @@ public class MainApp extends JPanel implements Runnable {
         g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
         map.draw(g2);
         player1.draw(g2);
-        inventory.draw(g2);
         g2.drawImage(test1, 0, 0, null);
 //        trees.sort(Comparator.comparingInt(tree -> tree.y));
         for (Tree tree : trees) {
@@ -108,6 +107,7 @@ public class MainApp extends JPanel implements Runnable {
         for (Animal animal : animals) {
             animal.draw(g2);
         }
+        inventory.draw(g2);
     }
 
     public BufferedImage loadImage(String imageName) {
@@ -115,7 +115,7 @@ public class MainApp extends JPanel implements Runnable {
         try {
             URL imageURL = getClass().getResource("/images/" + imageName);
             texture = ImageIO.read(imageURL);
-            System.out.println("Loaded tree");
+            //System.out.println("Loaded tree");
             return texture;
         } catch (Exception e) {
             e.printStackTrace();

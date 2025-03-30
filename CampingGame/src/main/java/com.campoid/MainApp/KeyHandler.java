@@ -9,6 +9,7 @@ public class KeyHandler implements KeyListener {
     public boolean left = false;
     public boolean right = false;
     public boolean up = false;
+    public boolean addItem = false;
     public boolean shooting = false;
 
     @Override
@@ -40,5 +41,8 @@ public class KeyHandler implements KeyListener {
 		if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
 			right = isPressed;
 		}
+        if (code == KeyEvent.VK_SPACE){
+            addItem = isPressed;
+        }
     }
 }

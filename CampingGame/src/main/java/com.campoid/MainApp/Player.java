@@ -20,12 +20,14 @@ public class Player {
     public int hunger = 100;
     public int thirst = 100;
 
-    public Player(MainApp mainApp, double x, double y) {
+    public InventoryGrid inventory;
+    public Player(MainApp mainApp, double x, double y, InventoryGrid inventory) {
         this.x = x;
         this.y = y;
         this.mainApp = mainApp;
         cameraKnob = new CameraKnob(x, y, 0, 0);
         texture = mainApp.loadImage("playerPlaceholdr.png");
+        this.inventory = inventory;
     }
 
     public void update() {
@@ -41,18 +43,22 @@ public class Player {
             mainApp.gameOver = true;
         }
         if (mainApp.keyH.down) {
-            this.dy = 10;
+            this.dy = 5;
         }
         if (mainApp.keyH.left) {
-            this.dx = -10;
+            this.dx = -5;
         }
         if (mainApp.keyH.up) {
-            this.dy = -10;
+            this.dy = -5;
             //System.out.println("fuck you");
         }
         if (mainApp.keyH.right) {
-            this.dx = 10;
+            this.dx = 5;
         }
+        if(mainApp.keyH.addItem){
+            System.out.println(inventory.addItem("meat.png"));
+        }
+
         this.worldX += this.dx;
         this.worldY += this.dy;
         this.dx += this.ax;

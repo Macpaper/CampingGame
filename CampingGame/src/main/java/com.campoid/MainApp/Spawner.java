@@ -8,7 +8,7 @@ public class Spawner {
     int maxBears = 10;
     int maxDeer = 10;
     int numRabbits = MainApp.randInt(3, 5);
-    int numBears = 1;
+    int numBears = 8;
     int numDeer = MainApp.randInt(1, 3);
     public Spawner(MainApp main) {
         this.main = main;
@@ -23,7 +23,7 @@ public class Spawner {
         for (int i = 0; i < numBears; i++) {
             spawnAnimal(AnimalType.BEAR);
         }
-        for (int i = 0; i < MainApp.randInt(15, 30); i++) {
+        for (int i = 0; i < MainApp.randInt(30, 40); i++) {
             spawnTree(TreeType.TREE);
         }
         for (int i = 0; i < MainApp.randInt(10, 20); i++) {
@@ -32,7 +32,7 @@ public class Spawner {
         for (int i = 0; i < MainApp.randInt(5, 10); i++) {
             spawnTree(TreeType.MUSHROOM);
         }
-        for (int i = 0; i < MainApp.randInt(5, 10); i++) {
+        for (int i = 0; i < MainApp.randInt(10, 20); i++) {
             Tile t = main.map.tiles.get(MainApp.randInt(0, main.map.tiles.size() - 1));
             int sx = t.x - main.G_WIDTH;
             int sy = t.y - main.G_HEIGHT;

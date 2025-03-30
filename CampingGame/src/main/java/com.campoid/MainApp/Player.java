@@ -17,12 +17,16 @@ public class Player extends Entity {
     public int worldX = 0;
     public int worldY = 0;
     public CameraKnob cameraKnob;
+    public boolean invincible = false;
+    long gotHitTimer = System.currentTimeMillis();
+
     public long pickTimer = System.currentTimeMillis();
     public long hitTimer = System.currentTimeMillis();
     public long useItemTimer = System.currentTimeMillis();
     private MainApp mainApp;
     private BufferedImage texture;
     private BufferedImage textureFight;
+    private BufferedImage textureDie;
     public int hunger = 100;
     public int thirst = 100;
     public InventoryGrid inventory;
@@ -41,6 +45,7 @@ public class Player extends Entity {
         cameraKnob = new CameraKnob(x, y, 0, 0);
         texture = mainApp.loadImage("playerPlaceholdr.png");
         textureFight = mainApp.loadImage("playerFight1.png");
+        textureDie = mainApp.loadImage("death.png");
 
         this.inventory = inventory;
 
@@ -70,6 +75,8 @@ public class Player extends Entity {
         }
     }
 
+
+
     public boolean collideAnimal(Animal a) {
             double px = worldX;
             double py = worldY;
@@ -95,6 +102,15 @@ public class Player extends Entity {
     public void collideAnimals() {
         for (Animal animal : mainApp.animals) {
             if (collideAnimal(animal)) {
+                if (animal instanceof Deer) {
+                    if (mainApp.keyH.space && System.currentTimeMillis() - hitTimer > 500){
+                        hitTimer = System.currentTimeMillis();
+                        fighting = true;
+                        animal.health -= damage;
+                        mainApp.explosions.add(new ParticleExplosion(mainApp, worldX, worldY, true));
+                        System.out.println("Hit " + animal.toString() + " for " + damage + " damage. " + animal.health + " left");
+                    }
+                }
                 if (animal instanceof Rabbit) {
                     if (mainApp.keyH.space && System.currentTimeMillis() - hitTimer > 500){
                         hitTimer = System.currentTimeMillis();
@@ -102,6 +118,14 @@ public class Player extends Entity {
                         animal.health -= damage;
                         mainApp.explosions.add(new ParticleExplosion(mainApp, worldX, worldY));
                         System.out.println("Hit " + animal.toString() + " for " + damage + " damage. " + animal.health + " left");
+                    }
+                }
+                if (animal instanceof BlackBear) {
+                    if (!invincible && System.currentTimeMillis() - gotHitTimer > 1000) {
+                        invincible = true;
+                        gotHitTimer = System.currentTimeMillis();
+                        addHealth(-30);
+                        System.out.println("OUCH");
                     }
                 }
             }
@@ -136,17 +160,25 @@ public class Player extends Entity {
         if (System.currentTimeMillis() - hitTimer > 400) {
             fighting = false;
         }
+        if (System.currentTimeMillis() - hitTimer > 1000) {
+            invincible = false;
+        }
         collideAnimals();
         collideTrees();
         this.dx = 0;
         this.dy = 0;
         this.ax = 0;
         this.ay = 0;
-        if (System.currentTimeMillis() % 100 == 0) {
+        if (System.currentTimeMillis() % 500 < 20) {
             hunger -= 2;
             thirst -= 3;
         }
-        if (hunger <= 0 || thirst <= 0) {
+        if (hunger >= 50 && thirst >= 50) {
+            if (System.currentTimeMillis() % 500 < 20) {
+                addHealth(1);
+            }
+        }
+        if (hunger <= 0 || thirst <= 0 || health <= 0) {
             mainApp.gameOver = true;
         }
         if (mainApp.keyH.down) {
@@ -240,18 +272,22 @@ public class Player extends Entity {
         if (mainApp.keyH.left) {
             faceLeft = true;
         }
-        if (faceLeft) {
-            if (fighting) {
-                g2.drawImage(textureFight, (int) this.x+mainApp.G_WIDTH/2 + this.width, (int)this.y+mainApp.G_HEIGHT/2, -(int)this.width, (int)this.height, null);
+        if (health > 0) {
+            if (faceLeft) {
+                if (fighting) {
+                    g2.drawImage(textureFight, (int) this.x+mainApp.G_WIDTH/2 + this.width, (int)this.y+mainApp.G_HEIGHT/2, -(int)this.width, (int)this.height, null);
+                } else {
+                    g2.drawImage(texture, (int) this.x+mainApp.G_WIDTH/2 + this.width, (int)this.y+mainApp.G_HEIGHT/2, -(int)this.width, (int)this.height, null);
+                }
             } else {
-                g2.drawImage(texture, (int) this.x+mainApp.G_WIDTH/2 + this.width, (int)this.y+mainApp.G_HEIGHT/2, -(int)this.width, (int)this.height, null);
+                if (fighting) {
+                    g2.drawImage(textureFight, (int) this.x+mainApp.G_WIDTH/2, (int)this.y+mainApp.G_HEIGHT/2, (int)this.width, (int)this.height, null);
+                } else {
+                    g2.drawImage(texture, (int) this.x+mainApp.G_WIDTH/2, (int)this.y+mainApp.G_HEIGHT/2, (int)this.width, (int)this.height, null);
+                }
             }
         } else {
-            if (fighting) {
-                g2.drawImage(textureFight, (int) this.x+mainApp.G_WIDTH/2, (int)this.y+mainApp.G_HEIGHT/2, (int)this.width, (int)this.height, null);
-            } else {
-                g2.drawImage(texture, (int) this.x+mainApp.G_WIDTH/2, (int)this.y+mainApp.G_HEIGHT/2, (int)this.width, (int)this.height, null);
-            }
+            g2.drawImage(textureDie, (int) this.x+mainApp.G_WIDTH/2 + this.width, (int)this.y+mainApp.G_HEIGHT/2, -(int)this.width, (int)this.height, null);
         }
         g2.setFont(MainApp.textFontBold);
         g2.setColor(new Color(0, 250, 0));

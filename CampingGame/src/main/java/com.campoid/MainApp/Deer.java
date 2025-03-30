@@ -29,6 +29,14 @@ public class Deer extends Animal implements Prey{
     public void update() {
         super.update();
         moveTimer.update();
+        if (health <= 0) {
+            isAlive = false;
+            Meat m = new Meat(mainApp, "meat.png", position.x, position.y);
+            Meat m2 = new Meat(mainApp, "meat.png", position.x+5, position.y+5);
+            mainApp.items.add(m);
+            mainApp.items.add(m2);
+            mainApp.explosions.add(new ParticleExplosion(mainApp, position.x, position.y, true));
+        }
     }
     public void draw(Graphics2D g2) {
         super.draw(g2);

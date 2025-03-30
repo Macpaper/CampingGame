@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class MainApp extends JPanel implements Runnable {
-
+    State gameState = State.START;
     public final int G_WIDTH = 1280;
     public final int G_HEIGHT = 960;
     Dimension dimension = new Dimension(G_WIDTH, G_HEIGHT);
@@ -36,6 +36,16 @@ public class MainApp extends JPanel implements Runnable {
     ArrayList<ParticleExplosion> explosions = new ArrayList<>();
     public HashMap<String, BufferedImage> imageMap = new HashMap<>();
     public BufferedImage dirtImage;
+    BufferedImage startBackground = loadImage("background.png");
+    int startButtonWidth = 500;
+    int startButtonHeight = 250;
+    Runnable startCallback = () -> {
+      this.gameState = State.GAMEPLAY;
+    };
+    Button startButton = new Button(this, G_WIDTH / 2 - startButtonWidth / 2,
+                                    G_HEIGHT / 2 - startButtonHeight / 2, startButtonWidth, startButtonHeight,
+            "startGameText.png", startCallback);
+
 
     private void loadImages() {
         try {
@@ -122,49 +132,71 @@ public class MainApp extends JPanel implements Runnable {
         }
     }
     public void update() {
-        map.update();
-        if (!gameOver) {
-            player1.update();
+        if (gameState == State.START) {
+            startButton.update();
         }
+        if (gameState == State.GAMEPLAY) {
+            map.update();
+            if (!gameOver) {
+                player1.update();
+            }
 
-        for (Tree tree : trees) {
-            tree.update();
+            trees.removeIf((t) -> !t.isAlive);
+            for (Tree tree : trees) {
+                tree.update();
+            }
+            animals.removeIf((a) -> !a.isAlive);
+            for (Animal animal : animals) {
+                animal.update();
+            }
+            items.removeIf((i) -> !i.isAlive); // idc if items arent alive this is for deleting awkeawkdhawkdw
+            for (Item item : items) {
+                item.update();
+            }
+            explosions.removeIf((i) -> i.deleteMe); // idc if items arent alive this is for deleting awkeawkdhawkdw
+            for (ParticleExplosion e : explosions) {
+                e.update();
+            }
+            inventory.update();
         }
-        animals.removeIf((a) -> !a.isAlive);
-        for (Animal animal : animals) {
-            animal.update();
+        if (gameState == State.DEAD) {
+
         }
-        items.removeIf((i) -> !i.isAlive); // idc if items arent alive this is for deleting awkeawkdhawkdw
-        for (Item item : items) {
-            item.update();
-        }
-        explosions.removeIf((i) -> i.deleteMe); // idc if items arent alive this is for deleting awkeawkdhawkdw
-        for (ParticleExplosion e : explosions) {
-            e.update();
-        }
-        inventory.update();
     }
     public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(50, 150, 40));
-        g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
-        map.draw(g2);
-        player1.draw(g2);
-        g2.drawImage(test1, 0, 0, null);
+        if (gameState == State.START) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(new Color(150, 150, 150));
+            g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
+            g2.drawImage(startBackground, 0, 0, G_WIDTH, G_HEIGHT, null);
+            startButton.draw(g2);
+        }
+        if (gameState == State.GAMEPLAY) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(new Color(50, 150, 40));
+            g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
+            map.draw(g2);
+            player1.draw(g2);
+            g2.drawImage(test1, 0, 0, null);
 //        trees.sort(Comparator.comparingInt(tree -> tree.y));
-        for (Tree tree : trees) {
-            tree.draw(g2);
+
+            for (Tree tree : trees) {
+                tree.draw(g2);
+            }
+            for (Animal animal : animals) {
+                animal.draw(g2);
+            }
+            for (Item item : items) {
+                item.draw(g2);
+            }
+            for (ParticleExplosion e : explosions) {
+                e.draw(g2);
+            }
+            inventory.draw(g2);
         }
-        for (Animal animal : animals) {
-            animal.draw(g2);
+        if (gameState == State.DEAD) {
+
         }
-        for (Item item : items) {
-            item.draw(g2);
-        }
-        for (ParticleExplosion e : explosions) {
-            e.draw(g2);
-        }
-        inventory.draw(g2);
     }
 
     public BufferedImage loadImage(String imageName) {
@@ -183,8 +215,11 @@ public class MainApp extends JPanel implements Runnable {
 
     private void generateTrees() {
         for (int i = 0; i < 20; i++) {
-            Tree t = new Tree(this, (int)Math.round(Math.random() * 1000), (int)Math.round(Math.random() * 1000));
+            Tree t = new Tree(this, MainApp.randInt(-800, 800), MainApp.randInt(-800, 800), MainApp.randInt(150, 300), MainApp.randInt(200, 350));
             trees.add(t);
         }
+    }
+    public static int randInt(int low, int high) {
+        return (int)(Math.random() * (high - low + 1)) + low;
     }
 }

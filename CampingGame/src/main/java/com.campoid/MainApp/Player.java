@@ -29,6 +29,7 @@ public class Player extends Entity {
     public ArrayList<Item> itemInventory = new ArrayList<>();
     public boolean fighting = false;
     public int health = 100;
+    public boolean crafting = false;
 
     public Player(MainApp mainApp, double x, double y, InventoryGrid inventory) {
         super(x, y, 50, 50);
@@ -59,11 +60,15 @@ public class Player extends Entity {
         double ay = a.position.y;
         return px + width > ax && px < ax + a.width && py + height > ay && py < ay + a.height;
     }
+    public boolean collideTree(Tree a) {
+        double px = worldX;
+        double py = worldY;
+        double ax = a.worldX;
+        double ay = a.worldY;
+        return px + width > ax && px < ax + a.width && py + height > ay && py < ay + a.height;
+    }
 
     public void collideAnimals() {
-        if (System.currentTimeMillis() - hitTimer > 400) {
-            fighting = false;
-        }
         for (Animal animal : mainApp.animals) {
             if (collideAnimal(animal)) {
                 if (animal instanceof Rabbit) {
@@ -71,8 +76,22 @@ public class Player extends Entity {
                         hitTimer = System.currentTimeMillis();
                         fighting = true;
                         animal.health -= damage;
+                        mainApp.explosions.add(new ParticleExplosion(mainApp, worldX, worldY));
                         System.out.println("Hit " + animal.toString() + " for " + damage + " damage. " + animal.health + " left");
                     }
+                }
+            }
+        }
+    }
+
+    public void collideTrees() {
+        for (Tree tree : mainApp.trees) {
+            if (collideTree(tree)) {
+                if (mainApp.keyH.space && System.currentTimeMillis() - hitTimer > 500){
+                    hitTimer = System.currentTimeMillis();
+                    fighting = true;
+                    tree.health -= damage;
+                    mainApp.explosions.add(new ParticleExplosion(mainApp, worldX, worldY, new Color(110, 38, 14)));
                 }
             }
         }
@@ -81,7 +100,11 @@ public class Player extends Entity {
 
 
     public void update() {
+        if (System.currentTimeMillis() - hitTimer > 400) {
+            fighting = false;
+        }
         collideAnimals();
+        collideTrees();
         this.dx = 0;
         this.dy = 0;
         this.ax = 0;

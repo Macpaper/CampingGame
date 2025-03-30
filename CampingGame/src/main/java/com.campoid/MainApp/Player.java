@@ -19,8 +19,9 @@ public class Player {
     private BufferedImage texture;
     public int hunger = 100;
     public int thirst = 100;
+    public InventoryGrid inventory;
 
-    public Player(MainApp mainApp, double x, double y) {
+    public Player(MainApp mainApp, double x, double y, InventoryGrid inventory) {
         worldX = (int)x;
         worldY = (int)y;
         this.x = x;
@@ -28,6 +29,7 @@ public class Player {
         this.mainApp = mainApp;
         cameraKnob = new CameraKnob(x, y, 0, 0);
         texture = mainApp.loadImage("playerPlaceholdr.png");
+        this.inventory = inventory;
     }
 
     public void collideAnimals() {
@@ -71,6 +73,9 @@ public class Player {
         }
         if (mainApp.keyH.right) {
             this.dx = 5;
+        }
+        if(mainApp.keyH.addItem){
+            inventory.addItem("meat.png");
         }
         this.worldX += this.dx;
         this.worldY += this.dy;

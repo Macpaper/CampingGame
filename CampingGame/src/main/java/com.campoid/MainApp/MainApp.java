@@ -24,7 +24,8 @@ public class MainApp extends JPanel implements Runnable {
     MouseHandler mouseH = new MouseHandler();
     KeyHandler keyH = new KeyHandler();
 
-    Player player1 = new Player(this, 0, 0);
+    InventoryGrid inventory = new InventoryGrid(this);
+    Player player1 = new Player(this, 0, 0, inventory);
     Map map;
     ArrayList<Tree> trees = new ArrayList<>();
     ArrayList<Animal> animals = new ArrayList<>();
@@ -133,6 +134,7 @@ public class MainApp extends JPanel implements Runnable {
         for (Item item : items) {
             item.update();
         }
+        inventory.update();
     }
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -151,6 +153,7 @@ public class MainApp extends JPanel implements Runnable {
         for (Item item : items) {
             item.draw(g2);
         }
+        inventory.draw(g2);
     }
 
     public BufferedImage loadImage(String imageName) {

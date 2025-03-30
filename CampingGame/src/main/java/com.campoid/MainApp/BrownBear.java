@@ -6,7 +6,7 @@ public class BrownBear extends Animal implements Predator{
     private GameTimer moveTimer;
     public boolean aggro = false;
     public BrownBear(MainApp mainApp, int worldX, int worldY) {
-        super(mainApp, "BB.png", new Vec2(worldX, worldY), 50, 50);
+        super(mainApp, "BB.png", new Vec2(worldX, worldY), 50, 50, 50);
 
         Runnable callback = () -> {
             int speed = 5;
@@ -52,5 +52,10 @@ public class BrownBear extends Animal implements Predator{
     }
     public void draw(Graphics2D g2) {
         super.draw(g2);
+    }
+
+    @Override
+    public String toString() {
+        return "brownBear";
     }
 }

@@ -8,7 +8,7 @@ public class Rabbit extends Animal implements Prey {
     private GameTimer moveTimer;
 
     public Rabbit(MainApp mainApp, int worldX, int worldY) {
-        super(mainApp, "Rabbit.png", new Vec2(worldX, worldY), 20, 20);
+        super(mainApp, "rabbit2.png", new Vec2(worldX, worldY), 20, 20, 3);
 
         width = 50;
         height = 50;
@@ -35,13 +35,19 @@ public class Rabbit extends Animal implements Prey {
         super.update();
         if (health <= 0) {
             isAlive = false;
-            Meat m = new Meat(mainApp, "meat.png", new Vec2(position.x, position.y));
+            Meat m = new Meat(mainApp, "meat.png", position.x, position.y);
             mainApp.items.add(m);
+            mainApp.explosions.add(new ParticleExplosion(mainApp, position.x, position.y));
         }
         moveTimer.update();
     }
     public void draw(Graphics2D g2) {
         super.draw(g2);
+    }
+
+    @Override
+    public String toString() {
+        return "rabbit";
     }
 
 }

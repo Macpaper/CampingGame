@@ -19,6 +19,9 @@ public class MainApp extends JPanel implements Runnable {
     Dimension dimension = new Dimension(G_WIDTH, G_HEIGHT);
     Thread thread = new Thread(this);
     public boolean running = true;
+    public static Font textFontBold = new Font("Arial", Font.BOLD, 25);
+    public static Font textFontBoldSmall = new Font("Arial", Font.BOLD, 15);
+    public static Font textFontPlain = new Font("Arial", Font.PLAIN, 20);
     public boolean gameOver = false;
     BufferedImage test1;
     MouseHandler mouseH = new MouseHandler();
@@ -30,8 +33,7 @@ public class MainApp extends JPanel implements Runnable {
     ArrayList<Tree> trees = new ArrayList<>();
     ArrayList<Animal> animals = new ArrayList<>();
     ArrayList<Item> items = new ArrayList<>();
-//    public BufferedImage dirtImage = loadImage("dirt.png");
-//    public BufferedImage grassImage = loadImage("grass.png");
+    ArrayList<ParticleExplosion> explosions = new ArrayList<>();
     public HashMap<String, BufferedImage> imageMap = new HashMap<>();
     public BufferedImage dirtImage;
 
@@ -45,6 +47,8 @@ public class MainApp extends JPanel implements Runnable {
             e.printStackTrace();
         }
     }
+
+
 
     private BufferedImage transformToIsometric(BufferedImage image) {
         int width = image.getWidth();
@@ -123,7 +127,6 @@ public class MainApp extends JPanel implements Runnable {
             player1.update();
         }
 
-
         for (Tree tree : trees) {
             tree.update();
         }
@@ -131,8 +134,13 @@ public class MainApp extends JPanel implements Runnable {
         for (Animal animal : animals) {
             animal.update();
         }
+        items.removeIf((i) -> !i.isAlive); // idc if items arent alive this is for deleting awkeawkdhawkdw
         for (Item item : items) {
             item.update();
+        }
+        explosions.removeIf((i) -> i.deleteMe); // idc if items arent alive this is for deleting awkeawkdhawkdw
+        for (ParticleExplosion e : explosions) {
+            e.update();
         }
         inventory.update();
     }
@@ -153,6 +161,9 @@ public class MainApp extends JPanel implements Runnable {
         for (Item item : items) {
             item.draw(g2);
         }
+        for (ParticleExplosion e : explosions) {
+            e.draw(g2);
+        }
         inventory.draw(g2);
     }
 
@@ -161,7 +172,7 @@ public class MainApp extends JPanel implements Runnable {
         try {
             URL imageURL = getClass().getResource("/images/" + imageName);
             texture = ImageIO.read(imageURL);
-            System.out.println("Loaded tree");
+//            System.out.println("Loaded tree");
             return texture;
         } catch (Exception e) {
             e.printStackTrace();

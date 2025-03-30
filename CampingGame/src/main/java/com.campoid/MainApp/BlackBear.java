@@ -8,7 +8,7 @@ public class BlackBear extends Animal implements Predator {
     private GameTimer moveTimer;
 
     public BlackBear(MainApp mainApp, int worldX, int worldY) {
-        super(mainApp, "blackBear.png", new Vec2(worldX, worldY), 50, 50);
+        super(mainApp, "blackBear.png", new Vec2(worldX, worldY), 50, 50, 20);
 
         Runnable callback = () -> {
             int speed = 5;
@@ -36,5 +36,9 @@ public class BlackBear extends Animal implements Predator {
     }
     public void draw(Graphics2D g2) {
         super.draw(g2);
+    }
+    @Override
+    public String toString() {
+        return "blackbear";
     }
 }

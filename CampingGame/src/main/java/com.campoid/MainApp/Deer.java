@@ -6,7 +6,7 @@ public class Deer extends Animal implements Prey{
     private GameTimer moveTimer;
 
     public Deer(MainApp mainApp, int worldX, int worldY) {
-        super(mainApp, "DD.png", new Vec2(worldX, worldY), 40, 40);
+        super(mainApp, "DD.png", new Vec2(worldX, worldY), 80, 80, 10);
 
         Runnable callback = () -> {
             velocity.x = (int)Math.round(Math.random() * 10 - 5);
@@ -32,5 +32,10 @@ public class Deer extends Animal implements Prey{
     }
     public void draw(Graphics2D g2) {
         super.draw(g2);
+    }
+
+    @Override
+    public String toString() {
+        return "deer";
     }
 }

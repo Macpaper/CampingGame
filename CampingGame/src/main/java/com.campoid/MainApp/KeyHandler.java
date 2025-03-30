@@ -9,9 +9,11 @@ public class KeyHandler implements KeyListener {
     public boolean left = false;
     public boolean right = false;
     public boolean up = false;
-    public boolean addItem = false;
+    public boolean space = false;
     public boolean shooting = false;
-
+    public boolean eKey = false;
+    boolean one = false, two = false, three = false, four = false, five = false;
+    boolean six = false, seven = false, eight = false, nine = false;
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -42,7 +44,25 @@ public class KeyHandler implements KeyListener {
 			right = isPressed;
 		}
         if (code == KeyEvent.VK_SPACE){
-            addItem = isPressed;
+            space = isPressed;
         }
+        if (code == KeyEvent.VK_E){
+            eKey = isPressed;
+        }
+        if (code >= KeyEvent.VK_1 && code <= KeyEvent.VK_9) {
+            int number = code - KeyEvent.VK_1 + 1;
+            switch (number) {
+                case 1 -> one = isPressed;
+                case 2 -> two = isPressed;
+                case 3 -> three = isPressed;
+                case 4 -> four = isPressed;
+                case 5 -> five = isPressed;
+                case 6 -> six = isPressed;
+                case 7 -> seven = isPressed;
+                case 8 -> eight = isPressed;
+                case 9 -> nine = isPressed;
+            }
+        }
+//
     }
 }

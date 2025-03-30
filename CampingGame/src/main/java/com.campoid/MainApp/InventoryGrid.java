@@ -70,10 +70,10 @@ public class InventoryGrid extends JPanel {
     }
 
     public void draw(Graphics2D g2 ) {
+        g2.setColor(Color.BLACK);
         for(int i = 0; i < 9; i++){
-            g2.setColor(Color.black);
             int x = 400 + i * (SLOT_SIZE + GAP);
-            int y = 800;
+            int y = 700;
             g2.drawRect(x, y, SLOT_SIZE, SLOT_SIZE);
             var loc = new ArrayList<>(List.of(x, y));
             indexToSlotXY.put(i, loc);

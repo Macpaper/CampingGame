@@ -21,6 +21,8 @@ public class Player {
     public int thirst = 100;
 
     public Player(MainApp mainApp, double x, double y) {
+        worldX = (int)x;
+        worldY = (int)y;
         this.x = x;
         this.y = y;
         this.mainApp = mainApp;
@@ -28,7 +30,24 @@ public class Player {
         texture = mainApp.loadImage("playerPlaceholdr.png");
     }
 
+    public void collideAnimals() {
+        for (Animal animal : mainApp.animals) {
+            double px = worldX;
+            double py = worldY;
+            double ax = animal.position.x;
+            double ay = animal.position.y;
+            double distX = px - ax;
+            double distY = py - ay;
+            double dist = Math.sqrt(distX * distX + distY * distY);
+            if (px + width > ax && px < ax + animal.width && py + height > ay && py < ay + animal.height) {
+                animal.health = 0;
+                System.out.println("animal health die");
+            }
+        }
+    }
+
     public void update() {
+        collideAnimals();
         this.dx = 0;
         this.dy = 0;
         this.ax = 0;
@@ -60,7 +79,7 @@ public class Player {
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(texture, (int) this.x, (int)this.y, (int)this.width, (int)this.height, null);
+        g2.drawImage(texture, (int) this.x+mainApp.G_WIDTH/2, (int)this.y+mainApp.G_HEIGHT/2, (int)this.width, (int)this.height, null);
         g2.setColor(new Color(0, 250, 0));
         g2.fillRect(50, 50, (int)(((double)hunger / 100) * 250), 30);
         g2.setColor(new Color(0, 0, 250));
@@ -68,6 +87,8 @@ public class Player {
         g2.setColor(Color.BLACK);
         g2.drawString("Hunger", 50, 75);
         g2.drawString("Thirst", 50, 125);
+        g2.drawString("Player World X: " + worldX, 200, 20);
+        g2.drawString("Player World Y: " + worldY, 200, 40);
     }
     public double getX() {
         return this.x;

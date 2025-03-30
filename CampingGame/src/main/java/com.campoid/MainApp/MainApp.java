@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class MainApp extends JPanel implements Runnable {
@@ -23,17 +24,54 @@ public class MainApp extends JPanel implements Runnable {
     MouseHandler mouseH = new MouseHandler();
     KeyHandler keyH = new KeyHandler();
 
-    Player player1 = new Player(this, G_WIDTH / 2, G_HEIGHT / 2);
-    Map map = new Map(this);
+    Player player1 = new Player(this, 0, 0);
+    Map map;
     ArrayList<Tree> trees = new ArrayList<>();
-    ArrayList<Rabbit> rabbits = new ArrayList<>();
     ArrayList<Animal> animals = new ArrayList<>();
+    ArrayList<Item> items = new ArrayList<>();
+//    public BufferedImage dirtImage = loadImage("dirt.png");
+//    public BufferedImage grassImage = loadImage("grass.png");
+    public HashMap<String, BufferedImage> imageMap = new HashMap<>();
+    public BufferedImage dirtImage;
+
+    private void loadImages() {
+        try {
+            URL imageURL = getClass().getResource("/images/dirt.png");
+            dirtImage = ImageIO.read(imageURL);
+            dirtImage = transformToIsometric(dirtImage);
+            System.out.println("Loaded tile image");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private BufferedImage transformToIsometric(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        int isoWidth = width + height;
+        int isoHeight = (width + height) / 2;
+        BufferedImage isometricImage = new BufferedImage(isoWidth, isoHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = isometricImage.createGraphics();
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int rgb = image.getRGB(x, y);
+                int isoX = (x - y) + height;
+                int isoY = (x + y) / 2;
+                isometricImage.setRGB(isoX, isoY, rgb);
+            }
+        }
+        g2d.dispose();
+        return isometricImage;
+    }
 
     public MainApp() {
         setFocusable(true);
         setPreferredSize(dimension);
         addKeyListener(keyH);
         addMouseListener(mouseH);
+        loadImages();
+        map = new Map(this);
         addMouseMotionListener(mouseH);
         try {
             URL imageURL = getClass().getResource("/images/dirt.png");
@@ -45,13 +83,19 @@ public class MainApp extends JPanel implements Runnable {
         }
         thread.start();
         generateTrees();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             int x = (int)Math.round(Math.random() * 1000);
             int y = (int)Math.round(Math.random() * 1000);
             Rabbit r = new Rabbit(this, x, y);
-            rabbits.add(r);
+            animals.add(r);
         }
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
+            int x = (int)Math.round(Math.random() * 1000);
+            int y = (int)Math.round(Math.random() * 1000);
+            Deer r = new Deer(this, x, y);
+            animals.add(r);
+        }
+        for (int i = 0; i < 10; i++) {
             int x = (int)Math.round(Math.random() * 1000);
             int y = (int)Math.round(Math.random() * 1000);
             BlackBear r = new BlackBear(this, x, y);
@@ -77,19 +121,22 @@ public class MainApp extends JPanel implements Runnable {
         if (!gameOver) {
             player1.update();
         }
+
+
         for (Tree tree : trees) {
             tree.update();
         }
-        for (Rabbit rabbit : rabbits) {
-            rabbit.update();
-        }
+        animals.removeIf((a) -> !a.isAlive);
         for (Animal animal : animals) {
             animal.update();
+        }
+        for (Item item : items) {
+            item.update();
         }
     }
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.RED);
+        g2.setColor(new Color(50, 150, 40));
         g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
         map.draw(g2);
         player1.draw(g2);
@@ -98,11 +145,11 @@ public class MainApp extends JPanel implements Runnable {
         for (Tree tree : trees) {
             tree.draw(g2);
         }
-        for (Rabbit tree : rabbits) {
-            tree.draw(g2);
-        }
         for (Animal animal : animals) {
             animal.draw(g2);
+        }
+        for (Item item : items) {
+            item.draw(g2);
         }
     }
 

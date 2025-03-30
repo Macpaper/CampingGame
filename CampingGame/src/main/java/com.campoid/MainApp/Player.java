@@ -131,8 +131,10 @@ public class Player extends Entity {
         }
         if (System.currentTimeMillis() - useItemTimer > 500) {
             useItemTimer = System.currentTimeMillis();
-            if (mainApp.keyH.one && itemInventory.size() > 0) {
+            if (mainApp.keyH.one && !itemInventory.isEmpty()) {
+                System.out.println("consuming something");
                 Item i = itemInventory.get(0);
+                System.out.print(i.toString());
                 i.consume();
                 itemInventory.remove(0);
             }

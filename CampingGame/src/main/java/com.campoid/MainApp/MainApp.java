@@ -185,6 +185,7 @@ public class MainApp extends JPanel implements Runnable {
 //            System.out.println("Loaded tree");
             return texture;
         } catch (Exception e) {
+            System.out.println("not londing " + imageName);
             e.printStackTrace();
         }
         return null;

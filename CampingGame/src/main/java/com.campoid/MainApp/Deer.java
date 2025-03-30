@@ -2,18 +2,17 @@ package main.java.com.campoid.MainApp;
 
 import java.awt.*;
 
-public class BrownBear extends Animal implements Predator{
+public class Deer extends Animal implements Prey{
     private GameTimer moveTimer;
 
-    public BrownBear(MainApp mainApp, int worldX, int worldY) {
-        super(mainApp, "BB.png", new Vec2(worldX, worldY), 50, 50);
+    public Deer(MainApp mainApp, int worldX, int worldY) {
+        super(mainApp, "DD.png", new Vec2(worldX, worldY), 40, 40);
 
         Runnable callback = () -> {
-            int speed = 5;
-            velocity.x = (int)Math.round(Math.random() * speed - speed/2);
-            velocity.y = (int)Math.round(Math.random() * speed - speed/2);
+            velocity.x = (int)Math.round(Math.random() * 10 - 5);
+            velocity.y = (int)Math.round(Math.random() * 10 - 5);
         };
-        moveTimer = new GameTimer(5000, 1000000, callback);
+        moveTimer = new GameTimer(2000, 1000000, callback);
         moveTimer.start();
     }
 

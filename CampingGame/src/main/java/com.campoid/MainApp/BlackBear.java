@@ -56,8 +56,8 @@ public class BlackBear extends Animal implements Predator {
             int py = mainApp.player1.worldY;
             Vec2 dir = new Vec2(px - worldX, py - worldY);
             dir = dir.normalize();
-            velocity.x = dir.x * 5;
-            velocity.y = dir.y * 5;
+            velocity.x = dir.x * 7;
+            velocity.y = dir.y * 7;
         }
         super.update();
         int dx = mainApp.player1.worldX - worldX;

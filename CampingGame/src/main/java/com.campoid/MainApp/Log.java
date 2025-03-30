@@ -18,7 +18,7 @@ public class Log extends Item {
         mainApp.player1.crafting = true;
         System.out.println("Consume Wood");
         isAlive = false;
-        Campfire c = new Campfire(mainApp, 500, 500);
+        Campfire c = new Campfire(mainApp, mainApp.player1.worldX , mainApp.player1.worldY );
         mainApp.items.add(c);
     }
 }

@@ -125,6 +125,7 @@ public class Player extends Entity {
         useItemTimer = System.currentTimeMillis();
         Item i = itemInventory.get(index);
         if (!(i instanceof NoItem)) {
+            System.out.println(i.toString());
             i.consume();
             itemInventory.set(index, new NoItem(mainApp, "", 0, 0));
         }

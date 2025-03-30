@@ -57,6 +57,18 @@ public class MainApp extends JPanel implements Runnable {
             BlackBear r = new BlackBear(this, x, y);
             animals.add(r);
         }
+        for (int i = 0; i < 30; i++) {
+            int x = (int)Math.round(Math.random() * 1000);
+            int y = (int)Math.round(Math.random() * 1000);
+            BrownBear r = new BrownBear(this, x, y);
+            animals.add(r);
+        }
+        for (int i = 0; i < 30; i++) {
+            int x = (int)Math.round(Math.random() * 1000);
+            int y = (int)Math.round(Math.random() * 1000);
+            Deer deer = new Deer(this, x, y);
+            animals.add(deer);
+        }
     }
 
 
@@ -89,7 +101,7 @@ public class MainApp extends JPanel implements Runnable {
     }
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.RED);
+        g2.setColor(Color.WHITE);
         g2.fillRect(0, 0, G_WIDTH, G_HEIGHT);
         map.draw(g2);
         player1.draw(g2);
@@ -98,8 +110,8 @@ public class MainApp extends JPanel implements Runnable {
         for (Tree tree : trees) {
             tree.draw(g2);
         }
-        for (Rabbit tree : rabbits) {
-            tree.draw(g2);
+        for (Rabbit rabit : rabbits) {
+            rabit.draw(g2);
         }
         for (Animal animal : animals) {
             animal.draw(g2);

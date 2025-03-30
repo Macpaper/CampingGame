@@ -27,6 +27,7 @@ public class MainApp extends JPanel implements Runnable {
     Map map = new Map(this);
     ArrayList<Tree> trees = new ArrayList<>();
     ArrayList<Rabbit> rabbits = new ArrayList<>();
+    ArrayList<Animal> animals = new ArrayList<>();
 
     public MainApp() {
         setFocusable(true);
@@ -49,6 +50,12 @@ public class MainApp extends JPanel implements Runnable {
             int y = (int)Math.round(Math.random() * 1000);
             Rabbit r = new Rabbit(this, x, y);
             rabbits.add(r);
+        }
+        for (int i = 0; i < 30; i++) {
+            int x = (int)Math.round(Math.random() * 1000);
+            int y = (int)Math.round(Math.random() * 1000);
+            BlackBear r = new BlackBear(this, x, y);
+            animals.add(r);
         }
     }
 
@@ -76,6 +83,9 @@ public class MainApp extends JPanel implements Runnable {
         for (Rabbit rabbit : rabbits) {
             rabbit.update();
         }
+        for (Animal animal : animals) {
+            animal.update();
+        }
     }
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -90,6 +100,9 @@ public class MainApp extends JPanel implements Runnable {
         }
         for (Rabbit tree : rabbits) {
             tree.draw(g2);
+        }
+        for (Animal animal : animals) {
+            animal.draw(g2);
         }
     }
 

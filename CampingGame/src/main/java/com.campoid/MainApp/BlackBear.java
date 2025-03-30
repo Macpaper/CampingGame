@@ -3,15 +3,24 @@ package main.java.com.campoid.MainApp;
 import javax.swing.text.Position;
 import java.awt.*;
 
-public class BlackBear extends Animal implements Predator{
-    MainApp mainApp;
-    public int worldX;
+public class BlackBear extends Animal implements Predator {
 
-    public BlackBear(MainApp mainApp, String textureString, Vec2 pos) {
-        super(mainApp, textureString, pos);
+    private GameTimer moveTimer;
+
+    public BlackBear(MainApp mainApp, int worldX, int worldY) {
+        super(mainApp, "whitePine_100x160.png", new Vec2(worldX, worldY));
+
+        Runnable callback = () -> {
+            int speed = 5;
+            velocity.x = (int)Math.round(Math.random() * speed - speed/2);
+            velocity.y = (int)Math.round(Math.random() * speed - speed/2);
+        };
+        moveTimer = new GameTimer(5000, 1000000, callback);
+        moveTimer.start();
     }
+
     @Override
-    public void move(Vec2 velocity) {
+    public void move(Vec2 direction) {
 
     }
 
@@ -20,17 +29,11 @@ public class BlackBear extends Animal implements Predator{
 
     }
 
-    @Override
     public void update() {
-
+        super.update();
+        moveTimer.update();
     }
-
-    @Override
-    public void attack(Animal predator) {
-
-    }
-    @Override
     public void draw(Graphics2D g2) {
-
+        super.draw(g2);
     }
 }

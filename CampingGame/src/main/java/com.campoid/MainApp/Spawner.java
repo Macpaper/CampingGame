@@ -77,8 +77,9 @@ public class Spawner {
 //            Tree t1 = new Tree(main, t.x, t.y, MainApp.randInt(100, 200), MainApp.randInt(200, 300));
 //        }
         if (type == TreeType.MUSHROOM) {
-            Mushroom m = new Mushroom(main, sx, sy, MainApp.randInt(20, 40), MainApp.randInt(30, 40));
-            main.mushrooms.add(m);
+            String mushPath = "mushroom" + MainApp.randInt(1, 2) + ".png";
+            Mushroom m = new Mushroom(main, mushPath, sx, sy);
+            main.items.add(m);
         }
     }
 

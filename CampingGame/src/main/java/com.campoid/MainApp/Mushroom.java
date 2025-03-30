@@ -3,40 +3,23 @@ package main.java.com.campoid.MainApp;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Mushroom {
-    private MainApp mainApp;
-    public int worldX;
-    public int worldY;
-//    public int x = (int) Math.round(Math.random() * 1000);
-    public boolean isAlive = true;
-//    public int y = (int) Math.round(Math.random() * 1000);
-    public int width = 50;
-    public int height = 50;
-    public int health = 1;
-    public BufferedImage texture;
-    public Mushroom(MainApp mainApp, int worldX, int worldY, int width, int height) {
-        this.mainApp = mainApp;
-        this.worldX = worldX;
-        this.worldY = worldY;
-        this.width = width;
-        this.height = height;
-        texture = mainApp.loadImage("mushroom" + MainApp.randInt(1, 2) +".png");
+public class Mushroom extends Item {
+    public Mushroom(MainApp mainApp, String textureName, double x, double y) {
+        super(mainApp, textureName, x, y);
     }
 
-    public void update() {
-        if (health <= 0) {
-            isAlive = false;
-            Log l = new Log(mainApp, "wood.png", worldX + width / 2, worldY + height);
-            mainApp.items.add(l);
-            mainApp.explosions.add(new ParticleExplosion(mainApp, worldX, worldY, new Color(110, 38, 14)));
-        }
+    @Override
+    public String toString() {
+        return "meat";
     }
-    public void draw(Graphics2D g2) {
-        int screenX = worldX - mainApp.player1.worldX + mainApp.G_WIDTH / 2;
-        int screenY = worldY - mainApp.player1.worldY + mainApp.G_HEIGHT / 2;
-        g2.drawImage(texture, screenX, screenY, width, height, null);
-        // DEBUG
-//        g2.drawString("World X: " + worldX, screenX, screenY);
-//        g2.drawString("World Y: " + worldY, screenX, screenY + 20);
+
+    @Override
+    public void consume() {
+        isAlive = false;
+        if (MainApp.randInt(1, 2) == 1) {
+            mainApp.player1.eat(10);
+        } else {
+            mainApp.player1.addHealth(-30);
+        }
     }
 }
